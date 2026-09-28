@@ -10,6 +10,13 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- Built-in widget registry (`src/afm/registry.ts`, phase 2, `0.0.3`), entries
+  named `module:Class`: the three demonstration widgets, the 52
+  anywidget-instruments widgets (vendored unmodified, loaded lazily through a
+  blob: URL) and previews of six anywidget-automotives widgets drawn with
+  anywidget-instruments (LOAD-005, INT-001, INT-002).
+- Demonstration AFM widgets in `examples/`: counter (write-back), gauge
+  (scalar) and sparkline (series, factory export) (INT-003).
 - AFM loader (`src/afm/loader.ts`): default export as an object or a factory,
   validation with a clear error, `initialize` awaited before `render`, abort
   signals and cleanups on removal (views first, then the model), `host` and
