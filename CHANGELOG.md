@@ -10,6 +10,13 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- AFM loader (`src/afm/loader.ts`): default export as an object or a factory,
+  validation with a clear error, `initialize` awaited before `render`, abort
+  signals and cleanups on removal (views first, then the model), `host` and
+  `experimental.invoke` rejecting with a descriptive error, remote modules
+  limited to `https:` or the Grafana origin and gated by a server switch,
+  widget container in a shadow root with its CSS and the Grafana theme
+  (LOAD-001 .. LOAD-012).
 - AFM model shim (`src/afm/model.ts`, phase 1, `0.0.2`): traits with
   structural change detection, `change:<trait>` and `change` events, changes
   sent to the host on `save_changes` only, `send` and `msg:custom` with
