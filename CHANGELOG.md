@@ -16,3 +16,5 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
   (`GRAFANA_PORT`).
 - Project governance: `AGENTS.md` rules, `SECURITY.md`, `CODE_OF_CONDUCT.md`
   (Contributor Covenant 3.0), `justfile`, `upstream-bugs.md`.
+- Documentation site (MkDocs) with `llms.txt` and `llms-full.txt`: design,
+  specification (EARS, MoSCoW) and roadmap (phase 0, `0.0.1`).

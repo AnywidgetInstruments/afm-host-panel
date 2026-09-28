@@ -7,6 +7,8 @@ plugin_id := "scelles-afmhost-panel"
 grafana_port := env("GRAFANA_PORT", "3000")
 # Documentation toolchain, pinned for reproducible builds.
 docs_deps := "--with mkdocs-material==9.7.7 --with mkdocs-llmstxt==0.5.0"
+# The theme prints a notice about MkDocs 2.0 on each build; it is not a build warning.
+export NO_MKDOCS_2_WARNING := "1"
 
 default:
     @just --list

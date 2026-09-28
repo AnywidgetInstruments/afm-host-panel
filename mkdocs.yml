@@ -1,0 +1,44 @@
+site_name: afm-host-panel
+site_description: Grafana panel plugin hosting anywidget front-end modules (AFM)
+site_url: https://s-celles.github.io/afm-host-panel/
+repo_url: https://github.com/s-celles/afm-host-panel
+edit_uri: ""
+# Buildable offline: no Google Fonts, no CDN assets.
+theme:
+  name: material
+  font: false
+  features:
+    - navigation.sections
+    - content.code.copy
+nav:
+  - Home: index.md
+  - User guide: guide.md
+  - Compatibility and limits: compatibility.md
+  - anywidget-automotives: automotives.md
+  - Design: design.md
+  - Specification: specification.md
+  - Roadmap: roadmap.md
+  - Development: development.md
+plugins:
+  - search
+  - llmstxt:
+      markdown_description: Grafana panel plugin that hosts anywidget front-end modules (AFM) with a model fed by Grafana data.
+      full_output: llms-full.txt
+      sections:
+        User documentation:
+          - index.md
+          - guide.md
+          - compatibility.md
+          - automotives.md
+        Design and development:
+          - design.md
+          - specification.md
+          - roadmap.md
+          - development.md
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - toc: { permalink: true }
+  - pymdownx.highlight
+  - pymdownx.superfences

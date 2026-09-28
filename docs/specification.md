@@ -1,0 +1,91 @@
+# Specification
+
+Version 0.1 (2026-09-28). Requirements use the Easy Approach to Requirements
+Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
+**W** won't (this time). Design choices are explained in [Design](design.md).
+
+## Model shim (MOD)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| MOD-001 | M | The model shim shall provide `get`, `set`, `save_changes`, `on`, `off`, `send` and `widget_manager` with the signatures of `@anywidget/types` 0.4.0. |
+| MOD-002 | M | When the widget calls `set` with a value that differs structurally from the current one, the model shall store it and fire `change:<trait>`, then `change`. |
+| MOD-003 | M | When the widget calls `set` with a value structurally equal to the current one, the model shall fire no event. |
+| MOD-004 | M | The model shall not notify the host of widget changes before `save_changes`. |
+| MOD-005 | M | When the widget calls `save_changes`, the model shall pass the changed traits since the last save, with their latest values, to the host, and then clear them. |
+| MOD-006 | M | When the host updates traits, the model shall fire the change events without queuing the traits for the next `save_changes`. |
+| MOD-007 | M | When `off` is called with an event and a callback, the model shall remove that callback; with an event only, every callback of the event; with no argument, every callback. |
+| MOD-008 | M | When the widget calls `send(content, callbacks, buffers)`, the model shall pass the content and the buffers to the host handler. |
+| MOD-009 | M | When the host sends a custom message, the model shall fire `msg:custom` with the content and the buffers as `DataView` objects. |
+| MOD-010 | S | If an event handler throws, then the model shall log the error and still call the other handlers. |
+| MOD-011 | S | When `widget_manager.get_model` is called, the model shall reject with an error stating that the host has no widget manager. |
+
+## Loader (LOAD)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| LOAD-001 | M | The loader shall accept a module whose default export is a widget object or a function returning one, synchronously or as a promise. |
+| LOAD-002 | M | If the module exports neither `initialize` nor `render` as functions, then the loader shall reject with an error naming the module and the expected exports. |
+| LOAD-003 | M | The loader shall await `initialize` once per model before the first `render`. |
+| LOAD-004 | M | When a widget is removed, the loader shall abort the render signal, run the render cleanup, then abort the model signal and run the initialize cleanup. |
+| LOAD-005 | M | The loader shall load built-in widgets from a registry bundled with the plugin (mode A). |
+| LOAD-006 | M | Where remote loading is enabled, the loader shall load a module from an `https:` or same-origin URL (mode B). |
+| LOAD-007 | M | While remote loading is disabled, when a panel requests a URL, the panel shall show an error message and load nothing. |
+| LOAD-008 | M | If loading or running a module fails, then the panel shall show the error message instead of crashing. |
+| LOAD-009 | S | The loader shall apply the widget CSS (`_css` trait, text or URL, or the CSS of a registry entry) inside a shadow root that holds the widget. |
+| LOAD-010 | S | The loader shall mark the widget container with the Grafana theme (`data-theme="light"` or `"dark"`). |
+| LOAD-011 | S | The loader shall pass `signal`, `host` and `experimental` to `initialize` and `render`; `host` and `experimental.invoke` shall reject with a descriptive error. |
+| LOAD-012 | C | Where isolation is turned off, the loader shall render the widget in the panel element without a shadow root. |
+
+## Mapping (MAP)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| MAP-001 | M | The mapping shall set a trait from a field of a data frame reduced with a Grafana reducer (default: last non-null value). |
+| MAP-002 | M | The mapping shall set a trait from all the values of a field, as an array. |
+| MAP-003 | M | The mapping shall set a trait from a static JSON value. |
+| MAP-004 | M | The mapping shall set a trait from a dashboard variable, resolved with `replaceVariables`, parsed as text, number or JSON. |
+| MAP-005 | M | The mapping shall set a trait from the time range (start, end, or both, in milliseconds). |
+| MAP-006 | M | If a source cannot be resolved (field absent, empty frame, only null values, unresolved variable, invalid number), then the mapping shall leave the trait unchanged and report a diagnostic. |
+| MAP-007 | M | When the widget saves a trait bound to a dashboard variable, the panel shall update that variable. |
+| MAP-008 | S | When the widget saves a trait bound to the panel options, the panel shall store the value in its static traits. |
+| MAP-009 | M | When the widget saves a trait without a write-back binding, the panel shall ignore it and log one console warning for that trait. |
+| MAP-010 | S | Where the options ask for it, the panel shall set the `width` and `height` traits to the panel size in pixels. |
+
+## Panel and editor (PNL)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| PNL-001 | M | When the panel receives new data, it shall update the traits of the running widget without rendering it again. |
+| PNL-002 | M | When the panel is resized, it shall update the size traits when they are enabled. |
+| PNL-003 | M | When the panel is removed, it shall run the widget cleanups and remove every subscription. |
+| PNL-004 | M | When the widget source changes, the panel shall remove the running widget and load the new one. |
+| PNL-005 | M | The options editor shall let the user choose a built-in widget or enter a URL, edit the trait bindings, and edit the static traits as JSON. |
+| PNL-006 | S | If the static traits are not a valid JSON object, then the editor shall show the parse error and the panel shall keep the last valid traits. |
+| PNL-007 | C | Where diagnostics are enabled, the panel shall list the unresolved bindings under the widget. |
+
+## Integrations (INT)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| INT-001 | M | The registry shall include widgets of anywidget-instruments, bundled without modification of their code. |
+| INT-002 | S | The registry shall reserve the `anywidget_automotives:` prefix; the demo shall show an automotive cluster built from anywidget-instruments widgets until anywidget-automotives ships widgets. |
+| INT-003 | M | The repository shall include three demonstration widgets: a counter (write-back), a gauge (scalar value) and a sparkline (series). |
+| INT-004 | M | The development server shall provision a demo dashboard on the TestData data source with one panel per demonstration widget. |
+
+## Quality and documentation (QA, DOC)
+
+| ID | Pri | Requirement |
+|---|---|---|
+| QA-001 | M | Unit, component and end-to-end tests shall pass locally and in the continuous integration workflow. |
+| QA-002 | M | Type checking, linting and the Grafana plugin validator shall report no blocking error. |
+| DOC-001 | M | The documentation shall state the limits of the host: `send` without a kernel, binary buffers, widgets that assume a Python kernel. |
+| DOC-002 | M | The documentation shall include an AFM compatibility matrix. |
+| DOC-003 | M | The documentation build shall produce `llms.txt` and `llms-full.txt`. |
+| DOC-004 | W | Signing and publishing to the Grafana plugin catalog. |
+
+## Revision history
+
+| Version | Date | Changes |
+|---|---|---|
+| 0.1 | 2026-09-28 | First version. |
