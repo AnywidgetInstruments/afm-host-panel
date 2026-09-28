@@ -1,0 +1,44 @@
+# Allowlist ("gitallow"): ignore everything at the root, then list what is
+# tracked. A new top-level file or folder must be added here explicitly.
+/*
+
+# Folders
+!/.config/
+!/.github/
+!/docs/
+!/examples/
+!/provisioning/
+!/scripts/
+!/src/
+!/tests/
+
+# Files
+!/.cprc.json
+!/.gitignore
+!/.npmrc
+!/.nvmrc
+!/.prettierrc.js
+!/CHANGELOG.md
+!/CODE_OF_CONDUCT.md
+!/CONTRIBUTING.md
+!/LICENSE
+!/LICENSE.md
+!/README.md
+!/SECURITY.md
+!/docker-compose.yaml
+!/eslint.config.mjs
+!/jest-setup.js
+!/jest.config.js
+!/justfile
+!/mkdocs.yml
+!/package-lock.json
+!/package.json
+!/playwright.config.ts
+!/tsconfig.json
+!/upstream-bugs.md
+
+# Never tracked, even inside allowed folders
+.config/AGENTS/
+.eslintcache
+node_modules/
+__pycache__/

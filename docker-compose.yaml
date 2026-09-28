@@ -1,0 +1,15 @@
+services:
+  grafana:
+    extends:
+      file: .config/docker-compose-base.yaml
+      service: grafana
+    build:
+      args:
+        # Grafana OSS by default (no proprietary dependency); override with
+        # GRAFANA_IMAGE=grafana-enterprise if needed.
+        grafana_image: ${GRAFANA_IMAGE:-grafana}
+        grafana_version: ${GRAFANA_VERSION:-13.2.2}
+    # The host port is configurable so the dev server can run next to
+    # another Grafana instance: GRAFANA_PORT=3001 docker compose up
+    ports: !override
+      - ${GRAFANA_PORT:-3000}:3000/tcp
