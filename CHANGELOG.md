@@ -10,6 +10,11 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- AFM model shim (`src/afm/model.ts`, phase 1, `0.0.2`): traits with
+  structural change detection, `change:<trait>` and `change` events, changes
+  sent to the host on `save_changes` only, `send` and `msg:custom` with
+  `DataView` buffers, `off` in its three forms, `widget_manager.get_model`
+  rejecting with a clear error (MOD-001 .. MOD-011).
 - Panel plugin skeleton generated with `@grafana/create-plugin` 7.11.0
   (plugin ID `scelles-afmhost-panel`), MIT license.
 - Development server on Grafana OSS 13.2.2 with a configurable host port
