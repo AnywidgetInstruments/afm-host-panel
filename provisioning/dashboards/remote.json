@@ -1,0 +1,44 @@
+{
+  "annotations": { "list": [] },
+  "description": "Loading AFM modules from a URL (mode B). Enabled on this development server by GF_PANELS_DISABLE_SANITIZE_HTML=true.",
+  "editable": true,
+  "links": [],
+  "panels": [
+    {
+      "type": "text",
+      "id": 1,
+      "title": "About this dashboard",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 7 },
+      "options": {
+        "mode": "markdown",
+        "content": "Mode B loads an AFM module from a URL with a native `import()`. The server switch `[panels] disable_sanitize_html = true` must be set; the development server sets it.\n\nThe panel on the right points to a URL that does not exist: it must show an error message, not break the dashboard."
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 2,
+      "title": "Invalid module URL",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 7 },
+      "options": {
+        "mode": "url",
+        "url": "https://afm-host-panel.invalid/widget.js",
+        "cssUrl": "",
+        "staticTraits": "{}",
+        "bindings": [],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": false
+      }
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": ["afm", "anywidget"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "utc",
+  "title": "AFM host remote module",
+  "uid": "afm-host-remote",
+  "version": 1
+}

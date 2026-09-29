@@ -13,3 +13,7 @@ services:
     # another Grafana instance: GRAFANA_PORT=3001 docker compose up
     ports: !override
       - ${GRAFANA_PORT:-3000}:3000/tcp
+    environment:
+      # Allows loading widgets from a URL (mode B) on this development server.
+      # Do not copy to a production server without reading docs/design.md.
+      GF_PANELS_DISABLE_SANITIZE_HTML: 'true'

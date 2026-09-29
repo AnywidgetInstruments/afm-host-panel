@@ -1,0 +1,368 @@
+{
+  "annotations": { "list": [] },
+  "description": "AFM widgets hosted in Grafana: demonstration widgets, anywidget-instruments and the anywidget-automotives cluster preview, fed by TestData.",
+  "editable": true,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    { "type": "row", "id": 100, "title": "Demonstration widgets (examples/)", "collapsed": false, "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 }, "panels": [] },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 1,
+      "title": "Counter (write-back to $count)",
+      "description": "examples/counter.js: a click saves value, written to the dashboard variable count.",
+      "gridPos": { "x": 0, "y": 1, "w": 6, "h": 7 },
+      "options": {
+        "mode": "builtin",
+        "widget": "examples:Counter",
+        "staticTraits": "{\n  \"label\": \"Clicks\",\n  \"step\": 1\n}",
+        "bindings": [
+          { "trait": "value", "source": "variable", "variable": "count", "parse": "number", "writeBack": "variable" }
+        ],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "text",
+      "id": 2,
+      "title": "Dashboard variable",
+      "gridPos": { "x": 6, "y": 1, "w": 6, "h": 7 },
+      "options": {
+        "mode": "markdown",
+        "content": "The counter writes its value to the dashboard variable `count`.\n\n**count = <span data-testid=\"count-value\">$count</span>**"
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 3,
+      "title": "Gauge (last TestData value)",
+      "description": "examples/gauge.js: value is the last non-null value of the query.",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "csv_metric_values",
+          "stringInput": "10,20,30,55",
+          "alias": "level"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 1, "w": 6, "h": 7 },
+      "options": {
+        "mode": "builtin",
+        "widget": "examples:Gauge",
+        "staticTraits": "{\n  \"label\": \"TestData level\",\n  \"unit\": \"%\",\n  \"min\": 0,\n  \"max\": 100\n}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 4,
+      "title": "Sparkline (series, label = time range start)",
+      "description": "examples/sparkline.js: values is the whole series; label is the start of the time range.",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0,
+          "max": 100,
+          "startValue": 50
+        }
+      ],
+      "gridPos": { "x": 18, "y": 1, "w": 6, "h": 7 },
+      "options": {
+        "mode": "builtin",
+        "widget": "examples:Sparkline",
+        "staticTraits": "{\n  \"unit\": \"%\"\n}",
+        "bindings": [
+          { "trait": "values", "source": "series" },
+          { "trait": "label", "source": "time", "time": "from", "timeFormat": "iso" }
+        ],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    { "type": "row", "id": 101, "title": "anywidget-instruments (unmodified)", "collapsed": false, "gridPos": { "x": 0, "y": 8, "w": 24, "h": 1 }, "panels": [] },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 5,
+      "title": "Gauge",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0,
+          "max": 100,
+          "startValue": 60
+        }
+      ],
+      "gridPos": { "x": 0, "y": 9, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments:Gauge",
+        "staticTraits": "{\n  \"label\": \"Random walk\",\n  \"unit\": \"%\",\n  \"min\": 0,\n  \"max\": 100,\n  \"hi\": 80,\n  \"hihi\": 90\n}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 6,
+      "title": "Tank",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0,
+          "max": 5,
+          "startValue": 3,
+          "spread": 0.2
+        }
+      ],
+      "gridPos": { "x": 6, "y": 9, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments:Tank",
+        "staticTraits": "{\n  \"label\": \"T-101\",\n  \"unit\": \"m\",\n  \"max\": 5,\n  \"hi\": 4.5,\n  \"lo\": 0.5,\n  \"show_limits\": true\n}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 7,
+      "title": "ToggleSwitch (write-back to $engine)",
+      "gridPos": { "x": 12, "y": 9, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments:ToggleSwitch",
+        "staticTraits": "{\n  \"label\": \"Engine\"\n}",
+        "bindings": [
+          { "trait": "value", "source": "variable", "variable": "engine", "parse": "json", "writeBack": "variable" }
+        ],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 8,
+      "title": "LED (reads $engine)",
+      "gridPos": { "x": 18, "y": 9, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments:LED",
+        "staticTraits": "{\n  \"label\": \"Engine running\"\n}",
+        "bindings": [{ "trait": "value", "source": "variable", "variable": "engine", "parse": "json" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    { "type": "row", "id": 102, "title": "anywidget-automotives cluster (preview, drawn with anywidget-instruments)", "collapsed": false, "gridPos": { "x": 0, "y": 18, "w": 24, "h": 1 }, "panels": [] },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 9,
+      "title": "Speedometer",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0,
+          "max": 200,
+          "startValue": 90,
+          "spread": 5
+        }
+      ],
+      "gridPos": { "x": 0, "y": 19, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:Speedometer",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 10,
+      "title": "Tachometer",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 800,
+          "max": 7000,
+          "startValue": 2500,
+          "spread": 150
+        }
+      ],
+      "gridPos": { "x": 6, "y": 19, "w": 6, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:Tachometer",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 11,
+      "title": "Fuel",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "csv_metric_values",
+          "stringInput": "64,62,61,60",
+          "alias": "fuel"
+        }
+      ],
+      "gridPos": { "x": 12, "y": 19, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:FuelGauge",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 12,
+      "title": "Coolant",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 60,
+          "max": 125,
+          "startValue": 90,
+          "spread": 2
+        }
+      ],
+      "gridPos": { "x": 16, "y": 19, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:TemperatureGauge",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 13,
+      "title": "Engine tell-tale ($engine)",
+      "gridPos": { "x": 20, "y": 19, "w": 4, "h": 4 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:TellTale",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "variable", "variable": "engine", "parse": "json" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 14,
+      "title": "Fuel rate",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0.5,
+          "max": 12,
+          "startValue": 4,
+          "spread": 0.3
+        }
+      ],
+      "gridPos": { "x": 20, "y": 23, "w": 4, "h": 5 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_automotives:TripComputer",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": ["afm", "anywidget"],
+  "templating": {
+    "list": [
+      {
+        "type": "textbox",
+        "name": "count",
+        "label": "Count",
+        "query": "0",
+        "current": { "text": "0", "value": "0" },
+        "options": [{ "selected": true, "text": "0", "value": "0" }]
+      },
+      {
+        "type": "custom",
+        "name": "engine",
+        "label": "Engine",
+        "query": "false,true",
+        "current": { "text": "false", "value": "false" },
+        "options": [
+          { "selected": true, "text": "false", "value": "false" },
+          { "selected": false, "text": "true", "value": "true" }
+        ]
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "utc",
+  "title": "AFM host demo",
+  "uid": "afm-host-demo",
+  "version": 1
+}

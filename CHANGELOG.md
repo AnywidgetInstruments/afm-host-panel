@@ -10,6 +10,11 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- Provisioned dashboards (phase 5, `0.0.6`): `demo.json` (demonstration
+  widgets, anywidget-instruments with write-back to a variable read by an
+  LED, anywidget-automotives cluster preview) and `remote.json` (modules
+  loaded from a URL); the development server allows remote modules
+  (INT-001 .. INT-004).
 - AFM host panel (`src/components/`, phase 4, `0.0.5`): built-in widget or
   module URL, trait bindings and static traits editors, size traits, shadow
   root or no isolation, diagnostics; traits pushed to the running widget on
