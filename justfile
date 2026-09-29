@@ -53,6 +53,10 @@ server-down:
 e2e:
     GRAFANA_URL=http://localhost:{{grafana_port}} npm run e2e
 
+# Documentation screenshots (docs/img/, src/img/screenshots/) from the running development server.
+screenshots:
+    node scripts/screenshots.mjs http://localhost:{{grafana_port}}
+
 # Documentation (strict: warnings fail), with llms.txt and llms-full.txt in site/.
 docs:
     uvx --from mkdocs==1.6.1 {{docs_deps}} mkdocs build --strict

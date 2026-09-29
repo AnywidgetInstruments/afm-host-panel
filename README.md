@@ -1,117 +1,51 @@
-# Grafana panel plugin template
+# afm-host-panel
 
-This template is a starting point for building a panel plugin for Grafana.
+A Grafana panel plugin that hosts anywidget front-end modules (AFM). Widgets
+written for Jupyter with [anywidget](https://anywidget.dev) run in Grafana
+unchanged: the panel loads the module, gives it an element and a model, and
+feeds the model from query results, the time range and dashboard variables.
+A widget can write back to a dashboard variable.
 
-## What are Grafana panel plugins?
+Built in: three demonstration widgets, the 52 widgets of
+[anywidget-instruments](https://github.com/s-celles/anywidget-instruments)
+(gauges, tanks, LEDs, switches, seven-segment displays, ...) and previews of
+[anywidget-automotives](https://github.com/s-celles/anywidget-automotives).
+Other AFM modules can be loaded from a URL when the server allows it.
 
-Panel plugins allow you to add new types of visualizations to your dashboard, such as maps, clocks, pie charts, lists, and more.
+> **Status: initial development (0.0.x).** Not signed, not in the plugin
+> catalog. Tested with Grafana OSS 13.2.2.
 
-Use panel plugins when you want to do things like visualize data returned by data source queries, navigate between dashboards, or control external systems (such as smart home devices).
+![The demonstration dashboard: example widgets, anywidget-instruments and an automotive cluster](docs/img/demo-dark.png)
 
-## Getting started
+The panel editor: choose a widget, set static traits, bind traits to the
+query results, a dashboard variable or the time range.
 
-### Frontend
+![The panel editor of the AFM host panel](docs/img/editor.png)
 
-1. Install dependencies
+## Quick start
 
-   ```bash
-   npm install
-   ```
+```bash
+npm ci
+npm run build
+docker compose up -d        # GRAFANA_PORT=3001 docker compose up -d to change the port
+```
 
-2. Build plugin in development mode and run in watch mode
+Open <http://localhost:3000>, dashboard **AFM host demo**.
 
-   ```bash
-   npm run dev
-   ```
+With [just](https://github.com/casey/just): `just install build server`,
+`just check`, `just e2e`, `just docs`.
 
-3. Build plugin in production mode
+## Documentation
 
-   ```bash
-   npm run build
-   ```
+- [User guide](docs/guide.md): install, choose a widget, bind traits, write back
+- [Compatibility and limits](docs/compatibility.md): AFM compatibility matrix
+- [anywidget-automotives](docs/automotives.md)
+- [Design](docs/design.md), [Specification](docs/specification.md), [Roadmap](docs/roadmap.md)
+- [Development](docs/development.md)
 
-4. Run the tests (using Jest)
+## License
 
-   ```bash
-   # Runs the tests and watches for changes, requires git init first
-   npm run test
+MIT (see `LICENSE.md`). The vendored anywidget-instruments front end is
+BSD-3-Clause (`src/widgets/anywidget-instruments/LICENSE`).
 
-   # Exits after running all the tests
-   npm run test:ci
-   ```
-
-5. Spin up a Grafana instance and run the plugin inside it (using Docker)
-
-   ```bash
-   npm run server
-   ```
-
-6. Run the E2E tests (using Playwright)
-
-   ```bash
-   # Spins up a Grafana instance first that we tests against
-   npm run server
-
-   # If you wish to start a certain Grafana version. If not specified will use latest by default
-   GRAFANA_VERSION=11.3.0 npm run server
-
-   # Starts the tests
-   npm run e2e
-   ```
-
-7. Run the linter
-
-   ```bash
-   npm run lint
-
-   # or
-
-   npm run lint:fix
-   ```
-
-# Distributing your plugin
-
-When distributing a Grafana plugin either within the community or privately the plugin must be signed so the Grafana application can verify its authenticity. This can be done with the `@grafana/sign-plugin` package.
-
-_Note: It's not necessary to sign a plugin during development. The docker development environment that is scaffolded with `@grafana/create-plugin` caters for running the plugin without a signature._
-
-## Initial steps
-
-Before signing a plugin please read the Grafana [plugin publishing and signing criteria](https://grafana.com/legal/plugins/#plugin-publishing-and-signing-criteria) documentation carefully.
-
-`@grafana/create-plugin` has added the necessary commands and workflows to make signing and distributing a plugin via the grafana plugins catalog as straightforward as possible.
-
-Before signing a plugin for the first time please consult the Grafana [plugin signature levels](https://grafana.com/legal/plugins/#what-are-the-different-classifications-of-plugins) documentation to understand the differences between the types of signature level.
-
-1. Create a [Grafana Cloud account](https://grafana.com/signup).
-2. Make sure that the first part of the plugin ID matches the slug of your Grafana Cloud account.
-   - _You can find the plugin ID in the `plugin.json` file inside your plugin directory. For example, if your account slug is `acmecorp`, you need to prefix the plugin ID with `acmecorp-`._
-3. Create a Grafana Cloud API key with the `PluginPublisher` role.
-4. Keep a record of this API key as it will be required for signing a plugin
-
-## Signing a plugin
-
-### Using Github actions release workflow
-
-If the plugin is using the github actions supplied with `@grafana/create-plugin` signing a plugin is included out of the box. The [release workflow](./.github/workflows/release.yml) can prepare everything to make submitting your plugin to Grafana as easy as possible. Before being able to sign the plugin however a secret needs adding to the Github repository.
-
-1. Please navigate to "settings > secrets > actions" within your repo to create secrets.
-2. Click "New repository secret"
-3. Name the secret "GRAFANA_API_KEY"
-4. Paste your Grafana Cloud API key in the Secret field
-5. Click "Add secret"
-
-#### Push a version tag
-
-To trigger the workflow we need to push a version tag to github. This can be achieved with the following steps:
-
-1. Run `npm version <major|minor|patch>`
-2. Run `git push origin main --follow-tags`
-
-## Learn more
-
-Below you can find source code for existing app plugins and other related documentation.
-
-- [Basic panel plugin example](https://github.com/grafana/grafana-plugin-examples/tree/master/examples/panel-basic#readme)
-- [`plugin.json` documentation](https://grafana.com/developers/plugin-tools/reference/plugin-json)
-- [How to sign a plugin?](https://grafana.com/developers/plugin-tools/publish-a-plugin/sign-a-plugin)
+Contributing: `CODE_OF_CONDUCT.md`, `SECURITY.md`, `AGENTS.md`.

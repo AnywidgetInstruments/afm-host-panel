@@ -1,20 +1,28 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "Afm-Host",
+  "name": "AFM host",
   "id": "scelles-afmhost-panel",
   "info": {
-    "keywords": ["panel"],
-    "description": "",
+    "keywords": ["panel", "anywidget", "afm", "widget", "jupyter", "instruments", "gauge"],
+    "description": "Run anywidget front-end modules (AFM) in a panel, with traits fed by Grafana data and variables",
     "author": {
-      "name": "S celles"
+      "name": "Sébastien Celles",
+      "url": "https://github.com/s-celles"
     },
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"
     },
-    "links": [],
-    "screenshots": [],
+    "links": [
+      { "name": "Repository", "url": "https://github.com/s-celles/afm-host-panel" },
+      { "name": "License", "url": "https://github.com/s-celles/afm-host-panel/blob/main/LICENSE.md" }
+    ],
+    "screenshots": [
+      { "name": "Demonstration dashboard", "path": "img/screenshots/demo-dark.png" },
+      { "name": "Light theme", "path": "img/screenshots/demo-light.png" },
+      { "name": "Panel editor", "path": "img/screenshots/editor.png" }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },

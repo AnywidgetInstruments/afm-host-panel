@@ -10,6 +10,13 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- User documentation with screenshots (README, guide, compatibility matrix,
+  anywidget-automotives) and `scripts/screenshots.mjs` (`just screenshots`),
+  which also fills the `screenshots` of `plugin.json` (DOC).
+- End-to-end tests (`@grafana/plugin-e2e`) on the provisioned dashboards:
+  every widget renders, gauge value, write-back to variables, time range,
+  invalid module URL; `scripts/validator-summary.mjs` for the plugin
+  validator report (QA).
 - Provisioned dashboards (phase 5, `0.0.6`): `demo.json` (demonstration
   widgets, anywidget-instruments with write-back to a variable read by an
   LED, anywidget-automotives cluster preview) and `remote.json` (modules
