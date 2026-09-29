@@ -95,7 +95,8 @@ const instrumentEntries: RegistryEntry[] = Object.entries(INSTRUMENTS_KINDS).map
   label: cls,
   group: 'anywidget-instruments',
   description: `anywidget-instruments ${cls} (_kind "${kind}").`,
-  defaults: { _kind: kind },
+  // "system": follow the data-theme of the panel container (the Grafana theme).
+  defaults: { _kind: kind, theme: 'system' },
   load: loadInstruments,
 }));
 

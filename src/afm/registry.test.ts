@@ -34,6 +34,14 @@ describe('registry (LOAD-005, INT-001, INT-002)', () => {
     }
   });
 
+  it('makes the anywidget-instruments widgets follow the Grafana theme', () => {
+    // "system": the widget reads the data-theme of the panel container; the
+    // default "auto" lets the widget style decide, whatever the Grafana theme.
+    for (const cls of Object.keys(INSTRUMENTS_KINDS)) {
+      expect(findWidget(`anywidget_instruments:${cls}`)?.defaults.theme).toBe('system');
+    }
+  });
+
   it('loads anywidget-instruments from its unmodified ESM text, with its CSS', async () => {
     // jsdom has no object URLs.
     URL.createObjectURL = jest.fn().mockReturnValue('blob:test/instruments');
