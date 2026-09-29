@@ -14,6 +14,29 @@ updates:
     commit-message:
       prefix: 'chore'
       include: 'scope'
+    # Updates that do not install or build with the current toolchain.
+    ignore:
+      # @grafana/* 13.2 requires React 19; the plugin supports Grafana 12.3
+      # (React 18). Update with React when the minimum Grafana version moves.
+      - dependency-name: '@grafana/data'
+        versions: ['>=13.2.0']
+      - dependency-name: '@grafana/i18n'
+        versions: ['>=13.2.0']
+      - dependency-name: '@grafana/runtime'
+        versions: ['>=13.2.0']
+      - dependency-name: '@grafana/schema'
+        versions: ['>=13.2.0']
+      - dependency-name: '@grafana/ui'
+        versions: ['>=13.2.0']
+      # typescript-eslint supports TypeScript < 6.1.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
+      # eslint-plugin-react does not support ESLint 10; @grafana/eslint-config 10
+      # changes the entry points used by .config/eslint.config.mjs (create-plugin).
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@grafana/eslint-config'
+        update-types: ['version-update:semver-major']
     groups:
       unit-test:
         patterns:

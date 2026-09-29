@@ -8,6 +8,14 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ## [Unreleased]
 
+### Fixed
+
+- `npm ci` failed on `main` after the Dependabot updates: `@grafana/*` 13.2
+  requires React 19, TypeScript 7 and ESLint 10 are not supported by
+  typescript-eslint and eslint-plugin-react. These return to `13.1.0`,
+  `5.9.2` and `9.x` (ignored by Dependabot until supported); the other
+  updates are kept, with `@emotion/css` 11.13.5 and Jest 30.
+
 ### Added
 
 - Documentation published to GitHub Pages by the `Documentation` workflow
