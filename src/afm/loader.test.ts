@@ -316,11 +316,21 @@ describe('mountContainer (LOAD-009, LOAD-010, LOAD-012)', () => {
     const c = mountContainer(target, { isolation: 'shadow', theme: 'dark', css: [{ text: '.x{color:red}' }] });
     const root = target.shadowRoot!;
     expect(root).not.toBeNull();
-    expect(root.querySelector('style')!.textContent).toBe('.x{color:red}');
+    expect(root.querySelector('.afm-host-styles style')!.textContent).toBe('.x{color:red}');
     expect(root.querySelector('[data-theme="dark"]')).not.toBeNull();
     expect(root.contains(c.el)).toBe(true);
     c.setTheme('light');
     expect(root.querySelector('[data-theme="light"]')).not.toBeNull();
+  });
+
+  it('fills the panel with the widget element and centers its children', () => {
+    const target = document.createElement('div');
+    const c = mountContainer(target, { isolation: 'shadow', theme: 'light' });
+    expect(c.el.style.width).toBe('100%');
+    expect(c.el.style.height).toBe('100%');
+    expect(c.el.style.display).toBe('flex');
+    const layout = [...target.shadowRoot!.querySelectorAll('style')].map((s) => s.textContent);
+    expect(layout).toContain('.afm-host-widget > * { margin: auto; }');
   });
 
   it('adds a stylesheet link for a CSS URL and replaces the CSS on update', () => {
@@ -330,7 +340,7 @@ describe('mountContainer (LOAD-009, LOAD-010, LOAD-012)', () => {
     expect(root.querySelector('link')!.getAttribute('href')).toBe('https://x.org/a.css');
     c.setCss([{ text: 'b{}' }]);
     expect(root.querySelector('link')).toBeNull();
-    expect(root.querySelectorAll('style')).toHaveLength(1);
+    expect(root.querySelectorAll('.afm-host-styles style')).toHaveLength(1);
   });
 
   it('reuses the shadow root of the target when mounted again', () => {
@@ -346,7 +356,7 @@ describe('mountContainer (LOAD-009, LOAD-010, LOAD-012)', () => {
     const c = mountContainer(target, { isolation: 'none', theme: 'dark', css: [{ text: '.x{}' }] });
     expect(target.shadowRoot).toBeNull();
     expect(target.contains(c.el)).toBe(true);
-    expect(target.querySelector('style')!.textContent).toBe('.x{}');
+    expect(target.querySelector('.afm-host-styles style')!.textContent).toBe('.x{}');
   });
 
   it('removes everything on dispose', () => {

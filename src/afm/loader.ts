@@ -272,11 +272,22 @@ export function mountContainer(target: HTMLElement, options: ContainerOptions): 
   wrapper.className = 'afm-host';
   wrapper.style.width = '100%';
   wrapper.style.height = '100%';
+  wrapper.style.overflow = 'auto';
+  // Center the widget in the panel. `el` fills the panel so that widgets sized
+  // in percent still fill it; its children are centered with `margin: auto`,
+  // which (unlike justify/align center) keeps a widget larger than the panel
+  // scrollable from its start.
+  const layout = document.createElement('style');
+  layout.textContent = '.afm-host-widget > * { margin: auto; }';
   const styles = document.createElement('div');
   styles.className = 'afm-host-styles';
   const el = document.createElement('div');
   el.className = 'afm-host-widget';
-  wrapper.append(styles, el);
+  el.style.width = '100%';
+  el.style.height = '100%';
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  wrapper.append(layout, styles, el);
   root.append(wrapper);
 
   const setTheme = (theme: 'light' | 'dark') => {
