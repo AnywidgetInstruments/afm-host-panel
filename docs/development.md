@@ -36,7 +36,9 @@ dependency; `src/components/` holds the panel and its option editors.
   panel with a spy widget.
 - `tests/*.spec.ts`: Playwright with `@grafana/plugin-e2e`, against the
   provisioned dashboards `demo.json` and `remote.json`. Start the server with
-  `just server` first.
+  `just server` first. The CI runs them on Grafana OSS (`grafana/grafana`),
+  for each version chosen by `grafana/plugin-actions/e2e-version` (from the
+  minimum version of `plugin.json` to nightly).
 
 Write the test first (TDD). Each requirement of the
 [specification](specification.md) is named in the test titles.

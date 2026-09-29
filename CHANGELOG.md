@@ -15,6 +15,11 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
   typescript-eslint and eslint-plugin-react. These return to `13.1.0`,
   `5.9.2` and `9.x` (ignored by Dependabot until supported); the other
   updates are kept, with `@emotion/css` 11.13.5 and Jest 30.
+- End-to-end tests: run on Grafana OSS in CI, like the development server
+  (the scaffold used Grafana Enterprise); console errors of Grafana itself
+  (OpenFeature, public dashboards API of 12.3) are ignored; each panel's row
+  is brought into view first, as Grafana 13.0 mounts the panels of a row only
+  while the row is in view.
 
 ### Added
 
