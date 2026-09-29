@@ -10,6 +10,11 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- AFM host panel (`src/components/`, phase 4, `0.0.5`): built-in widget or
+  module URL, trait bindings and static traits editors, size traits, shadow
+  root or no isolation, diagnostics; traits pushed to the running widget on
+  each render, restart when the source changes, clean up on removal, Grafana
+  theme followed (PNL-001 .. PNL-007). Replaces the generated `SimplePanel`.
 - Mapping of Grafana data to traits (`src/afm/mapping.ts`, phase 3, `0.0.4`):
   a field reduced by a Grafana reducer, all the values of a field, a static
   value, a dashboard variable (text, number or JSON) or the time range, with
