@@ -16,7 +16,7 @@
     },
     "links": [
       { "name": "Repository", "url": "https://github.com/s-celles/afm-host-panel" },
-      { "name": "License", "url": "https://github.com/s-celles/afm-host-panel/blob/main/LICENSE.md" }
+      { "name": "License", "url": "https://github.com/s-celles/afm-host-panel/blob/main/LICENSE" }
     ],
     "screenshots": [
       { "name": "Demonstration dashboard", "path": "img/screenshots/demo-dark.png" },

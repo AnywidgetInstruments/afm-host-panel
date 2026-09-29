@@ -45,7 +45,7 @@ With [just](https://github.com/casey/just): `just install build server`,
 
 ## License
 
-MIT (see `LICENSE.md`). The vendored anywidget-instruments front end is
+MIT (see `LICENSE`). The vendored anywidget-instruments front end is
 BSD-3-Clause (`src/widgets/anywidget-instruments/LICENSE`).
 
 Contributing: `CODE_OF_CONDUCT.md`, `SECURITY.md`, `AGENTS.md`.
