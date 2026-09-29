@@ -10,6 +10,11 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- Mapping of Grafana data to traits (`src/afm/mapping.ts`, phase 3, `0.0.4`):
+  a field reduced by a Grafana reducer, all the values of a field, a static
+  value, a dashboard variable (text, number or JSON) or the time range, with
+  diagnostics for the sources without a value; routing of the traits saved by
+  the widget to a dashboard variable or the panel options (MAP-001 .. MAP-009).
 - Built-in widget registry (`src/afm/registry.ts`, phase 2, `0.0.3`), entries
   named `module:Class`: the three demonstration widgets, the 52
   anywidget-instruments widgets (vendored unmodified, loaded lazily through a
