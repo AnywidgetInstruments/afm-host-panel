@@ -15,17 +15,26 @@ Other AFM modules can be loaded from a URL when the server allows it.
 > **Status: initial development (0.0.x).** Not signed, not in the plugin
 > catalog. Tested with Grafana OSS 13.2.2.
 
-![The demonstration dashboard: example widgets, anywidget-instruments and an automotive cluster](docs/img/demo-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/demo-dark.png">
+  <img alt="The demonstration dashboard: example widgets, anywidget-instruments and an automotive cluster" src="docs/img/demo-light.png">
+</picture>
 
 The anywidget-instruments gallery dashboard: 30 of the 52 built-in
 anywidget-instruments widgets.
 
-![The anywidget-instruments gallery dashboard](docs/img/instruments-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/instruments-dark.png">
+  <img alt="The anywidget-instruments gallery dashboard" src="docs/img/instruments-light.png">
+</picture>
 
 The panel editor: choose a widget, set static traits, bind traits to the
 query results, a dashboard variable or the time range.
 
-![The panel editor of the AFM host panel](docs/img/editor.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/editor.png">
+  <img alt="The panel editor of the AFM host panel" src="docs/img/editor-light.png">
+</picture>
 
 ## Quick start
 
@@ -35,7 +44,8 @@ npm run build
 docker compose up -d        # GRAFANA_PORT=3001 docker compose up -d to change the port
 ```
 
-Open <http://localhost:3000>, dashboard **AFM host demo**.
+Open <http://localhost:3000>, dashboards **AFM host demo** and
+**anywidget-instruments gallery**.
 
 With [just](https://github.com/casey/just): `just install build server`,
 `just check`, `just e2e`, `just docs`.
