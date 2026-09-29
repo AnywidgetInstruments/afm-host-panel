@@ -18,7 +18,7 @@
 | `just build` | production bundle in `dist/` |
 | `just server` | Grafana OSS 13.2.2 with the plugin and the provisioned dashboards; `GRAFANA_PORT=3001 just server` to use another port |
 | `just e2e` | Playwright tests against the running server (`GRAFANA_PORT` as above) |
-| `just docs` | documentation in `site/`, strict, with `llms.txt` and `llms-full.txt` |
+| `just docs` | documentation in `site/`, strict, with `llms.txt` and `llms-full.txt`; published to <https://s-celles.github.io/afm-host-panel/> by the `Documentation` workflow on each push to `main` |
 | `just validate` | Grafana plugin validator (Docker) on a packaged `dist/` |
 
 If your npm configuration sets `os` to another platform, platform packages

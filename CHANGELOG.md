@@ -10,6 +10,8 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- Documentation published to GitHub Pages by the `Documentation` workflow
+  (`just docs`, strict) on each push to `main`.
 - User documentation with screenshots (README, guide, compatibility matrix,
   anywidget-automotives) and `scripts/screenshots.mjs` (`just screenshots`),
   which also fills the `screenshots` of `plugin.json` (DOC).
@@ -59,3 +61,9 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
   (Contributor Covenant 3.0), `justfile`, `upstream-bugs.md`.
 - Documentation site (MkDocs) with `llms.txt` and `llms-full.txt`: design,
   specification (EARS, MoSCoW) and roadmap (phase 0, `0.0.1`).
+
+### Changed
+
+- Single license file `LICENSE` (the identical `LICENSE.md` is removed).
+- Documentation screenshots are taken once every widget has rendered,
+  instead of after a fixed delay (the first one could show empty panels).
