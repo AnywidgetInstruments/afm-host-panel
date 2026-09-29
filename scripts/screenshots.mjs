@@ -25,8 +25,16 @@ mkdirSync(PLUGIN, { recursive: true });
 
 const browser = await chromium.launch();
 
-async function shoot(name, path, { theme = 'dark', width = 1600, height = 1150, widgets = DEMO_WIDGETS } = {}) {
-  const page = await browser.newPage({ viewport: { width, height } });
+// Options: `rows`, the title of a row and optionally of the next one, to keep
+// only that part of the page (down to the last panel without a next row);
+// `plugin: false` to leave the image out of src/img/screenshots/.
+async function shoot(
+  name,
+  path,
+  { theme = 'dark', width = 1600, height = 1150, widgets = DEMO_WIDGETS, rows, plugin = true } = {}
+) {
+  // A fixed locale: Grafana fails to start with some system locales (en-US@posix).
+  const page = await browser.newPage({ viewport: { width, height }, locale: 'en-US' });
   const sep = path.includes('?') ? '&' : '?';
   await page.goto(`${base}${path}${sep}theme=${theme}`, { waitUntil: 'load', timeout: LOAD_TIMEOUT });
   // Wait until every widget in view is rendered (the panel clears aria-busy),
@@ -43,18 +51,52 @@ async function shoot(name, path, { theme = 'dark', width = 1600, height = 1150, 
   await page.waitForLoadState('networkidle', { timeout: LOAD_TIMEOUT }).catch(() => undefined);
   await page.waitForTimeout(SETTLE_MS);
   const file = join(DOCS, `${name}.png`);
-  await page.screenshot({ path: file });
-  copyFileSync(file, join(PLUGIN, `${name}.png`));
+  let clip;
+  if (rows) {
+    const rowTop = async (row) => (await page.getByText(row, { exact: true }).first().boundingBox()).y - 8;
+    const top = await rowTop(rows[0]);
+    const bottom = rows[1]
+      ? await rowTop(rows[1])
+      : (await page.$$eval('[data-testid="afm-panel-host"]', (els) =>
+          Math.max(...els.map((e) => e.closest('section')?.getBoundingClientRect().bottom ?? 0))
+        )) + 8;
+    clip = { x: 0, y: top, width, height: bottom - top };
+  }
+  await page.screenshot({ path: file, clip });
+  if (plugin) {
+    copyFileSync(file, join(PLUGIN, `${name}.png`));
+  }
   await page.close();
-  console.log(`${file}, ${PLUGIN}/${name}.png`);
+  console.log(plugin ? `${file}, ${PLUGIN}/${name}.png` : file);
 }
 
+// The anywidget-instruments gallery dashboard.
+const gallery = JSON.parse(readFileSync('provisioning/dashboards/instruments.json', 'utf8'));
+const GALLERY_WIDGETS = gallery.panels.filter((p) => p.type === 'scelles-afmhost-panel').length;
+const AUTOMOTIVES_ROW = 'anywidget-automotives cluster (preview, drawn with anywidget-instruments)';
+
 try {
-  // The demonstration dashboard, dark and light themes.
-  await shoot('demo-dark', '/d/afm-host-demo?kiosk');
-  await shoot('demo-light', '/d/afm-host-demo?kiosk', { theme: 'light' });
-  // The panel editor: widget choice, static traits and trait bindings.
-  await shoot('editor', '/d/afm-host-demo?editPanel=3', { height: 1400, widgets: 1 });
+  for (const theme of ['dark', 'light']) {
+    // The demonstration dashboard.
+    await shoot(`demo-${theme}`, '/d/afm-host-demo?kiosk', { theme });
+    // The anywidget-automotives cluster preview of the demonstration dashboard.
+    await shoot(`automotives-${theme}`, '/d/afm-host-demo?kiosk', { theme, rows: [AUTOMOTIVES_ROW], plugin: false });
+    // The anywidget-instruments gallery.
+    await shoot(`instruments-${theme}`, '/d/afm-instruments-gallery?kiosk', {
+      theme,
+      height: 2000,
+      widgets: GALLERY_WIDGETS,
+      rows: ['Numeric indicators'],
+      plugin: theme === 'dark',
+    });
+    // The panel editor: widget choice, static traits and trait bindings.
+    await shoot(theme === 'dark' ? 'editor' : 'editor-light', '/d/afm-host-demo?editPanel=3', {
+      theme,
+      height: 1400,
+      widgets: 1,
+      plugin: theme === 'dark',
+    });
+  }
 } finally {
   await browser.close();
 }

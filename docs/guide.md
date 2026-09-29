@@ -20,7 +20,8 @@ Grafana 12.3 or later is required; the plugin is tested with Grafana OSS 13.2.2.
 
 To try it without installing anything in your own Grafana, run the
 development server: `just server` (or `docker compose up`), then open
-<http://localhost:3000>, dashboard **AFM host demo**.
+<http://localhost:3000>, dashboards **AFM host demo** and
+**anywidget-instruments gallery**.
 
 ## Choose a widget
 
@@ -30,17 +31,25 @@ In the panel editor, section **Widget**:
   `module:Class`:
     - `examples:Counter`, `examples:Gauge`, `examples:Sparkline`: the
       demonstration widgets of `examples/`;
-    - `anywidget_instruments:*`: every anywidget-instruments widget (Gauge,
-      Tank, LED, ToggleSwitch, SevenSegment, ...);
-    - `anywidget_automotives:*`: previews of the anywidget-automotives
-      widgets, see [anywidget-automotives](automotives.md).
+    - `anywidget_instruments:*`: the 52 widgets of
+      [anywidget-instruments](instruments.md) (gauges, tanks, LEDs,
+      switches, seven-segment displays, process objects, ...);
+    - `anywidget_automotives:*`: previews of the
+      [anywidget-automotives](automotives.md) widgets.
 - **Module URL** (mode B): an AFM module loaded from a URL, `https:` or on the
   Grafana origin, with an optional stylesheet URL. The Grafana administrator
   must allow it, see [Remote modules](#remote-modules).
 
+[![The anywidget-instruments gallery](img/instruments-dark.png#only-dark)](instruments.md)
+[![The anywidget-instruments gallery](img/instruments-light.png#only-light)](instruments.md)
+
+*Built-in anywidget-instruments widgets: see [anywidget-instruments](instruments.md)
+for the traits of each family.*
+
 ## Bind traits to Grafana
 
-![The panel editor: widget, trait bindings and static traits](img/editor.png)
+![The panel editor: widget, trait bindings and static traits](img/editor.png#only-dark)
+![The panel editor: widget, trait bindings and static traits](img/editor-light.png#only-light)
 
 A widget reads **traits** (named values) from its model. In section
 **Traits**, the panel sets them in this order, a later one winning:
@@ -88,7 +97,10 @@ Each click sets `count`, which other panels can use.
   own CSS. Widget and Grafana styles do not mix. Choose **None** for a widget
   that looks for its own nodes in the whole document.
 - The widget container carries `data-theme="light"` or `"dark"` after the
-  Grafana theme; anywidget-instruments widgets follow it.
+  Grafana theme. The anywidget-instruments widgets and the
+  anywidget-automotives previews follow it (`theme: "system"`, set by
+  default); set `"theme": "light"` or `"dark"` in the static traits to fix
+  it.
 
 ## Remote modules
 

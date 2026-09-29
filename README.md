@@ -17,6 +17,11 @@ Other AFM modules can be loaded from a URL when the server allows it.
 
 ![The demonstration dashboard: example widgets, anywidget-instruments and an automotive cluster](docs/img/demo-dark.png)
 
+The anywidget-instruments gallery dashboard: 30 of the 52 built-in
+anywidget-instruments widgets.
+
+![The anywidget-instruments gallery dashboard](docs/img/instruments-dark.png)
+
 The panel editor: choose a widget, set static traits, bind traits to the
 query results, a dashboard variable or the time range.
 
@@ -37,11 +42,23 @@ With [just](https://github.com/casey/just): `just install build server`,
 
 ## Documentation
 
+Published at <https://s-celles.github.io/afm-host-panel/>; `just docs` builds
+it locally from `docs/`:
+
 - [User guide](docs/guide.md): install, choose a widget, bind traits, write back
+- [anywidget-instruments](docs/instruments.md): the 52 built-in instrumentation widgets
+- [anywidget-automotives](docs/automotives.md): the automotive cluster preview
 - [Compatibility and limits](docs/compatibility.md): AFM compatibility matrix
-- [anywidget-automotives](docs/automotives.md)
 - [Design](docs/design.md), [Specification](docs/specification.md), [Roadmap](docs/roadmap.md)
 - [Development](docs/development.md)
+
+## Related projects
+
+| Project | What it is | Documentation |
+|---|---|---|
+| [anywidget-instruments](https://github.com/s-celles/anywidget-instruments) | Instrumentation widgets for notebooks: gauges, tanks, LEDs, switches, charts, alarms, SCADA objects | <https://s-celles.github.io/anywidget-instruments/> |
+| [anywidget-automotives](https://github.com/s-celles/anywidget-automotives) | Automotive instruments built on anywidget-instruments (design stage) | <https://s-celles.github.io/anywidget-automotives/> |
+| [afm-host-panel](https://github.com/s-celles/afm-host-panel) | Grafana panel plugin that runs anywidget modules, with both libraries built in | <https://s-celles.github.io/afm-host-panel/> |
 
 ## License
 

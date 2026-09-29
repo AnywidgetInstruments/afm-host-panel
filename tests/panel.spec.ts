@@ -18,55 +18,63 @@ const WIDGET_TIMEOUT = 30000;
 // - the public dashboards API, missing on Grafana 12.3.
 const GRAFANA_NOISE = [/\/livereload\.js/, /OpenFeature|OFREP/, /\/api\/dashboards\/uid\/[^/]+\/public-dashboards/];
 
-test('the demo dashboard renders every widget without console errors', async ({
-  gotoDashboardPage,
-  readProvisionedDashboard,
-  page,
-}) => {
-  // Every panel is brought into view in turn, each within WIDGET_TIMEOUT.
-  test.setTimeout(120000);
-  const errors: string[] = [];
-  page.on('console', (msg) => {
-    const text = `${msg.text()} ${msg.location().url}`;
-    if (msg.type() === 'error' && !GRAFANA_NOISE.some((re) => re.test(text))) {
-      errors.push(text);
-    }
-  });
-  page.on('pageerror', (err) => errors.push(err.message));
+// The provisioned dashboards, with their minimum number of AFM panels.
+const DASHBOARDS = [
+  { name: 'the demo dashboard', fileName: 'demo.json', widgets: 13 },
+  { name: 'the anywidget-instruments gallery', fileName: 'instruments.json', widgets: 30 },
+];
 
-  const dashboard = await readProvisionedDashboard({ fileName: 'demo.json' });
-  // Each AFM panel with the title of the row it belongs to.
-  const panels: Array<{ title: string; row?: string }> = [];
-  let row: string | undefined;
-  for (const p of (dashboard.panels ?? []) as Array<{ type?: string; title: string }>) {
-    if (p.type === 'row') {
-      row = p.title;
-    } else if (p.type === 'scelles-afmhost-panel') {
-      panels.push({ title: shownTitle(p.title), row });
-    }
-  }
-  expect(panels.length).toBeGreaterThanOrEqual(13);
-
-  const dashboardPage = await gotoDashboardPage(dashboard);
-  // Panels are loaded lazily: bring each one into view, then wait for its widget.
-  // Grafana 13.0 mounts the panels of a row only while the row is in view:
-  // bring the row header into view first (rows are always mounted).
-  for (const { title, row } of panels) {
-    const panel = dashboardPage.getPanelByTitle(title);
-    // Grafana can re-render a row or a panel while it scrolls: retry.
-    await expect(async () => {
-      if (row) {
-        await page.getByText(row, { exact: true }).first().scrollIntoViewIfNeeded({ timeout: 2000 });
+for (const { name, fileName, widgets } of DASHBOARDS) {
+  test(`${name} renders every widget without console errors`, async ({
+    gotoDashboardPage,
+    readProvisionedDashboard,
+    page,
+  }) => {
+    // Every panel is brought into view in turn, each within WIDGET_TIMEOUT.
+    test.setTimeout(240000);
+    const errors: string[] = [];
+    page.on('console', (msg) => {
+      const text = `${msg.text()} ${msg.location().url}`;
+      if (msg.type() === 'error' && !GRAFANA_NOISE.some((re) => re.test(text))) {
+        errors.push(text);
       }
-      await panel.locator.scrollIntoViewIfNeeded({ timeout: 2000 });
-    }, title).toPass({ timeout: WIDGET_TIMEOUT });
-    await expect(panel.locator.getByTestId('afm-panel-host'), title).toHaveAttribute('aria-busy', 'false', {
-      timeout: WIDGET_TIMEOUT,
     });
-  }
-  await expect(page.getByTestId('afm-panel-error')).toHaveCount(0);
-  expect(errors).toEqual([]);
-});
+    page.on('pageerror', (err) => errors.push(err.message));
+
+    const dashboard = await readProvisionedDashboard({ fileName });
+    // Each AFM panel with the title of the row it belongs to.
+    const panels: Array<{ title: string; row?: string }> = [];
+    let row: string | undefined;
+    for (const p of (dashboard.panels ?? []) as Array<{ type?: string; title: string }>) {
+      if (p.type === 'row') {
+        row = p.title;
+      } else if (p.type === 'scelles-afmhost-panel') {
+        panels.push({ title: shownTitle(p.title), row });
+      }
+    }
+    expect(panels.length).toBeGreaterThanOrEqual(widgets);
+
+    const dashboardPage = await gotoDashboardPage(dashboard);
+    // Panels are loaded lazily: bring each one into view, then wait for its widget.
+    // Grafana 13.0 mounts the panels of a row only while the row is in view:
+    // bring the row header into view first (rows are always mounted).
+    for (const { title, row } of panels) {
+      const panel = dashboardPage.getPanelByTitle(title);
+      // Grafana can re-render a row or a panel while it scrolls: retry.
+      await expect(async () => {
+        if (row) {
+          await page.getByText(row, { exact: true }).first().scrollIntoViewIfNeeded({ timeout: 2000 });
+        }
+        await panel.locator.scrollIntoViewIfNeeded({ timeout: 2000 });
+      }, title).toPass({ timeout: WIDGET_TIMEOUT });
+      await expect(panel.locator.getByTestId('afm-panel-host'), title).toHaveAttribute('aria-busy', 'false', {
+        timeout: WIDGET_TIMEOUT,
+      });
+    }
+    await expect(page.getByTestId('afm-panel-error')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+}
 
 test('the gauge shows the last TestData value', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
   const dashboard = await readProvisionedDashboard({ fileName: 'demo.json' });

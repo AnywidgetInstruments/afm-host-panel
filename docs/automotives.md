@@ -1,9 +1,16 @@
 # anywidget-automotives
 
-[anywidget-automotives](https://github.com/s-celles/anywidget-automotives)
+[anywidget-automotives](https://s-celles.github.io/anywidget-automotives/)
 plans automotive instruments (speedometer, tachometer, fuel and temperature
 gauges, tell-tales, trip computer) as AFM modules built on
-anywidget-instruments. It is at the design stage: no widget is published yet.
+[anywidget-instruments](instruments.md). It is at the design stage: no widget
+is published yet.
+
+![The anywidget-automotives cluster preview](img/automotives-dark.png#only-dark)
+![The anywidget-automotives cluster preview](img/automotives-light.png#only-light)
+
+*The cluster preview of the demonstration dashboard, fed by TestData; the
+engine tell-tale reads the `engine` variable.*
 
 ## What the plugin provides now
 
@@ -36,5 +43,14 @@ keeps its name when the real widget replaces the preview.
    and drop `preview`.
 3. Until then, a published module can already be loaded by URL (mode B).
 
-Like anywidget-automotives itself, these displays are for visualization and
-teaching. They are not vehicle instruments.
+## See also
+
+- [anywidget-automotives documentation](https://s-celles.github.io/anywidget-automotives/):
+  [widget catalog](https://s-celles.github.io/anywidget-automotives/widgets/),
+  [use with CAN & CANopen Studio](https://s-celles.github.io/anywidget-automotives/integration/),
+  [safety notice](https://s-celles.github.io/anywidget-automotives/safety/).
+- [anywidget-instruments](instruments.md): the widgets that draw the previews.
+
+!!! warning "Safety"
+    Like anywidget-automotives itself, these displays are for visualization
+    and teaching. They are not vehicle instruments.

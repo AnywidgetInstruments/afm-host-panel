@@ -58,5 +58,5 @@ Checked against the AFM specification of anywidget 0.11.0 and
 |---|---|
 | `examples/counter.js`, `gauge.js`, `sparkline.js` | Unit, component and end-to-end tests |
 | anywidget-instruments `Gauge`, `Tank`, `LED`, `ToggleSwitch` | End-to-end (demo dashboard); `ToggleSwitch` writes a variable |
-| anywidget-instruments `Thermometer`, `SevenSegment` | Demo dashboard (automotives preview) |
+| The 30 anywidget-instruments widgets of the gallery dashboard (numeric and discrete indicators and controls, process objects, radar and polar charts) | End-to-end: each renders without error or console error |
 | Other anywidget-instruments widgets | Listed in the registry; not tested one by one |

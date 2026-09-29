@@ -51,9 +51,10 @@ With the development server running (`just server`):
 node scripts/screenshots.mjs            # or: node scripts/screenshots.mjs http://localhost:3001
 ```
 
-The script writes the images to `docs/img/` (README and documentation site)
-and `src/img/screenshots/` (`screenshots` of `plugin.json`, shown in the
-plugin catalog). Take them again when the demonstration dashboard or the
+The script writes the images, in the dark and light themes, to `docs/img/`
+(README and documentation site, which shows the one matching its theme) and
+those listed in the `screenshots` of `plugin.json` (plugin catalog) to
+`src/img/screenshots/`. Take them again when a provisioned dashboard or the
 panel editor changes.
 
 ## Updating anywidget-instruments

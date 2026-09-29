@@ -10,6 +10,10 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Fixed
 
+- The anywidget-instruments widgets did not follow the Grafana theme (dark
+  labels on a dark background): their entries now set `theme: "system"`,
+  like the anywidget-automotives previews.
+
 - `npm ci` failed on `main` after the Dependabot updates: `@grafana/*` 13.2
   requires React 19, TypeScript 7 and ESLint 10 are not supported by
   typescript-eslint and eslint-plugin-react. These return to `13.1.0`,
@@ -23,6 +27,14 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Added
 
+- `anywidget-instruments gallery` dashboard (`instruments.json`): 30
+  anywidget-instruments widgets grouped by family, with an end-to-end test
+  and screenshots; `docs/instruments.md` presents the built-in
+  anywidget-instruments widgets.
+- Documentation: light, dark or system theme (the default), screenshots
+  that follow it, and the same "Related projects" section as
+  anywidget-instruments and anywidget-automotives; `plugin.json` links to
+  the documentation.
 - Documentation published to GitHub Pages by the `Documentation` workflow
   (`just docs`, strict) on each push to `main`.
 - User documentation with screenshots (README, guide, compatibility matrix,

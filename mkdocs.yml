@@ -10,11 +10,23 @@ theme:
   features:
     - navigation.sections
     - content.code.copy
+  # System preference by default; the toggle cycles light, dark, system.
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle: { icon: material/brightness-auto, name: Switch to light mode }
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: { icon: material/weather-sunny, name: Switch to dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: { icon: material/weather-night, name: Switch to system preference }
 nav:
   - Home: index.md
   - User guide: guide.md
+  - Built-in widgets:
+      - anywidget-instruments: instruments.md
+      - anywidget-automotives: automotives.md
   - Compatibility and limits: compatibility.md
-  - anywidget-automotives: automotives.md
   - Design: design.md
   - Specification: specification.md
   - Roadmap: roadmap.md
@@ -28,8 +40,9 @@ plugins:
         User documentation:
           - index.md
           - guide.md
-          - compatibility.md
+          - instruments.md
           - automotives.md
+          - compatibility.md
         Design and development:
           - design.md
           - specification.md
@@ -39,6 +52,7 @@ markdown_extensions:
   - admonition
   - tables
   - attr_list
+  - md_in_html
   - toc: { permalink: true }
   - pymdownx.highlight
   - pymdownx.superfences

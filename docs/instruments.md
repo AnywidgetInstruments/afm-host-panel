@@ -1,0 +1,94 @@
+# anywidget-instruments
+
+[anywidget-instruments](https://s-celles.github.io/anywidget-instruments/)
+provides instrumentation widgets for notebooks: gauges, meters, tanks,
+thermometers, LEDs, switches, push buttons, emergency stop, charts, alarm
+annunciators and SCADA objects. The plugin bundles its front end
+**unmodified**, so the 52 widgets are available in Grafana without a URL or
+network access, as built-in widgets named `anywidget_instruments:<Class>`.
+
+![The anywidget-instruments gallery dashboard](img/instruments-dark.png#only-dark)
+![The anywidget-instruments gallery dashboard](img/instruments-light.png#only-light)
+
+*The **anywidget-instruments gallery** dashboard of the development server
+(`just server`): 30 widgets, grouped as in the
+[widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
+with the indicators fed by TestData. It follows the Grafana theme.*
+
+## Use a widget in a panel
+
+1. In the panel editor, section **Widget**, choose **Built-in widget**, then
+   a widget of the **anywidget-instruments** group, for example
+   `anywidget_instruments:Tank`.
+2. In **Static traits**, set the traits of the widget, with the names and
+   values of the [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/):
+
+    ```json
+    {"label": "T-101", "unit": "m", "max": 5, "lo": 0.5, "hi": 4.5, "show_limits": true}
+    ```
+
+3. In **Trait bindings**, bind `value` to the query: source **Field
+   (reduced)**, reducer **Last \*** (the default).
+
+The panel sets `_kind` (which widget of the bundle to draw) and
+`theme: "system"` (follow the Grafana theme) before the static traits; both
+can be overridden.
+
+## Widgets by family
+
+The families of the [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
+and what they need in Grafana:
+
+| Family | Widgets | In Grafana |
+|---|---|---|
+| Numeric indicators | `Gauge`, `Meter`, `VUMeter`, `Thermometer`, `Tank`, `SevenSegment`, `Compass`, `AnalogIndicator`, `Transmitter` | `value` bound to a field |
+| Compact indicators | `DeviationIndicator`, `KPITile`, `BarGraph` | `value` bound to a field (`BarGraph`: all the values of a field, or a static array) |
+| Numeric controls | `Knob`, `Dial`, `FillSlide`, `NumericEntry` | `value` written back to a variable |
+| Discrete controls | `ToggleSwitch`, `RockerSwitch`, `SlideSwitch`, `PushButton`, `SelectorSwitch`, `EmergencyStop` | `value` written back to a variable |
+| Discrete indicators | `LED`, `StackLight`, `BitField` | `value` bound to a variable or a field |
+| Process objects | `Valve`, `Pump`, `Motor`, `Pipe` | state (`"open"`, `"running"`, ...) from a variable or static traits |
+| Specialized charts | `RadarChart`, `PolarPlot`, `SmithChart` | data sets in `value` (static or JSON variable) |
+| Alarms and events | `AlarmIndicator`, `AlarmBanner`, `AlarmList`, `Annunciator`, `EventLog` | alarms in `value` (static or JSON variable) |
+| Graphs fed by messages | `TrendChart`, `WaveformChart`, `IntensityChart`, `DigitalWaveformGraph`, `MixedSignalGraph`, `XYGraph`, `Sparkline` | draw nothing yet: they receive their data as messages from a kernel ([limits](compatibility.md#limits)) |
+| Supervisory objects | `PIDFaceplate`, `StateMachine`, `RecipeTable`, `EquipmentTree`, `SvgPanel`, `SynopticCanvas`, `PictureControl`, `ThemeSwitch` | static traits; the parts that expect a kernel stay idle |
+
+For the Grafana time series, prefer the Grafana visualizations (or the
+`examples:Sparkline` widget, fed with all the values of a field).
+
+## Write back to a dashboard variable
+
+A control saves its `value` when the operator acts on it. With the
+**Write-back** column of the binding set to **Variable**, the value goes to a
+dashboard variable that other panels read. On the demonstration dashboard,
+`ToggleSwitch` writes the `engine` variable, which an `LED` and the
+anywidget-automotives tell-tale read:
+
+![The demonstration dashboard](img/demo-dark.png#only-dark)
+![The demonstration dashboard](img/demo-light.png#only-light)
+
+anywidget-instruments also computes some traits in the browser
+(`alarm_level`, `peak`, ...) and saves them; without a binding, they are
+ignored with one console warning per trait.
+
+## Version and updates
+
+The bundled front end is the commit recorded in
+`src/widgets/anywidget-instruments/SOURCE.json`, under its BSD-3-Clause
+license. [Development](development.md#updating-anywidget-instruments) gives
+the steps to update it.
+
+## See also
+
+- [anywidget-instruments documentation](https://s-celles.github.io/anywidget-instruments/):
+  [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
+  [trait contract](https://s-celles.github.io/anywidget-instruments/trait-contract/),
+  [hosts](https://s-celles.github.io/anywidget-instruments/hosts/),
+  [safety notice](https://s-celles.github.io/anywidget-instruments/safety/).
+- [anywidget-automotives](automotives.md): automotive previews drawn with
+  these widgets.
+- [Compatibility and limits](compatibility.md).
+
+!!! warning "Safety"
+    Like anywidget-instruments itself, these widgets are for visualization,
+    teaching, simulation and supervision. They are not a safety-related
+    system, and `EmergencyStop` is not an emergency stop device.
