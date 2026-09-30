@@ -1,6 +1,6 @@
 import { resolveWidget } from './loader';
 import { AUTOMOTIVE_SAFETY_NOTICE, findWidget, importEsmText, listWidgets } from './registry';
-import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments/kinds';
+import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments-industrial/kinds';
 import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
 
 describe('registry (LOAD-005, INT-001, INT-002, INT-005)', () => {

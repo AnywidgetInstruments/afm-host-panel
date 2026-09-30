@@ -72,7 +72,7 @@ ignored with one console warning per trait.
 ## Version and updates
 
 The bundled front end is the commit recorded in
-`src/widgets/anywidget-instruments/SOURCE.json`, under its BSD-3-Clause
+`src/widgets/anywidget-instruments-industrial/SOURCE.json`, under its BSD-3-Clause
 license. [Development](development.md#updating-the-vendored-libraries) gives
 the steps to update it.
 

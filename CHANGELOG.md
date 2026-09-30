@@ -10,6 +10,10 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ### Changed
 
+- Both libraries now build on the anywidget-instruments core: industrial
+  re-vendored at bb2484d (package renamed anywidget-instruments-industrial,
+  vendored in `src/widgets/anywidget-instruments-industrial/`) and automotive
+  at 7861fda, which no longer carries the industrial styles.
 - The repositories moved to the AnywidgetInstruments organization: links,
   `plugin.json`, `package.json` and the vendoring scripts point there.
 - Breaking: built-in widget ids follow the new library names, with no alias:

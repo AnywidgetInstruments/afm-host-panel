@@ -76,7 +76,7 @@ it locally from `docs/`:
 
 MIT (see `LICENSE`). The vendored anywidget-instruments-industrial and
 anywidget-instruments-automotive front ends are BSD-3-Clause
-(`src/widgets/anywidget-instruments/LICENSE`,
+(`src/widgets/anywidget-instruments-industrial/LICENSE`,
 `src/widgets/anywidget-instruments-automotive/LICENSE`).
 
 Contributing: `CODE_OF_CONDUCT.md`, `SECURITY.md`, `AGENTS.md`.

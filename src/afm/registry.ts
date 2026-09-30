@@ -10,7 +10,7 @@
 //   front end, vendored and loaded the same way (INT-002).
 import type { CssSource } from './loader';
 import type { Traits } from './model';
-import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments/kinds';
+import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments-industrial/kinds';
 import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
 
 export type Importer = (url: string) => Promise<unknown>;
@@ -78,8 +78,8 @@ function loadInstruments(importer?: Importer): Promise<LoadedWidget> {
   if (!instruments) {
     instruments = (async () => {
       const [{ default: esm }, { default: css }] = await Promise.all([
-        import(/* webpackChunkName: "anywidget-instruments" */ '../widgets/anywidget-instruments/esm'),
-        import(/* webpackChunkName: "anywidget-instruments" */ '../widgets/anywidget-instruments/css'),
+        import(/* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/esm'),
+        import(/* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/css'),
       ]);
       return { module: await importEsmText(esm, importer), css: [{ text: css }] };
     })();

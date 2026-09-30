@@ -68,7 +68,7 @@ node scripts/vendor-automotive.mjs ../anywidget-instruments-automotive
 ```
 
 Each script copies the built module and CSS unmodified, with the upstream
-license and commit (`src/widgets/anywidget-instruments/SOURCE.json` and
+license and commit (`src/widgets/anywidget-instruments-industrial/SOURCE.json` and
 `src/widgets/anywidget-instruments-automotive/SOURCE.json`). Commit the
 result with the commit hashes in the message.
 
