@@ -130,7 +130,11 @@ test('the anywidget-instruments-automotive widgets come from their own module', 
     (p) => p.type === 'row' && p.title.startsWith('anywidget-instruments-automotive')
   )!;
   const gear = dashboardPage.getPanelByTitle(shownTitle('Gear ($gear)'));
+  // The last row: Grafana 12 mounts a row only once the page has scrolled near
+  // it, Grafana 13 its panels only while the row header is in view.
+  test.setTimeout(120000);
   await expect(async () => {
+    await page.mouse.wheel(0, 600);
     await page.getByText(row.title, { exact: true }).first().scrollIntoViewIfNeeded({ timeout: 2000 });
     await gear.locator.scrollIntoViewIfNeeded({ timeout: 2000 });
   }).toPass({ timeout: WIDGET_TIMEOUT });
