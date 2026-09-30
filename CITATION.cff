@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software in teaching material, a publication or a
+  product, please cite it as below.
+title: "afm-host-panel: a Grafana panel hosting anywidget front-end modules"
+type: software
+authors:
+  - family-names: Celles
+    given-names: Sébastien
+    orcid: "https://orcid.org/0000-0001-9987-4338"
+    affiliation: "Université de Poitiers"
+version: 0.0.6
+license: BSD-3-Clause
+repository-code: "https://github.com/AnywidgetInstruments/afm-host-panel"
+url: "https://anywidgetinstruments.github.io/afm-host-panel/"
+abstract: >-
+  A Grafana panel plugin that runs anywidget front-end modules, fed by
+  query results, dashboard variables and the time range, with the
+  industrial, automotive and aeronautics widgets of the anywidget
+  instruments family built in.
+keywords:
+  - Grafana
+  - dashboards
+  - anywidget
+  - widgets
+  - instrumentation
