@@ -8,6 +8,21 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ## [Unreleased]
 
+### Changed
+
+- The repositories moved to the AnywidgetInstruments organization: links,
+  `plugin.json`, `package.json` and the vendoring scripts point there.
+- Breaking: built-in widget ids follow the new library names, with no alias:
+  `anywidget_instruments:*` becomes `anywidget_instruments_industrial:*` and
+  `anywidget_automotives:*` becomes `anywidget_instruments_automotive:*`.
+  Update the `widget` option of existing panels.
+- The automotive entries are the widgets of anywidget-instruments-automotive,
+  vendored unmodified by `scripts/vendor-automotive.mjs`, instead of previews
+  drawn with industrial widgets; every one carries the safety notice (INT-005).
+  The demo cluster reads the new `telltale` and `gear` variables.
+- anywidget-instruments-industrial vendored at 978a890 and
+  anywidget-instruments-automotive at dc2c98c.
+
 ### Fixed
 
 - The anywidget-instruments widgets did not follow the Grafana theme (dark

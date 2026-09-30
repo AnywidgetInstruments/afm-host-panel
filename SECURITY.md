@@ -15,7 +15,7 @@ commit of the `main` branch receives security fixes.
 Please do not open a public issue for a vulnerability.
 
 Report it privately through a GitHub Security Advisory:
-<https://github.com/s-celles/afm-host-panel/security/advisories/new>
+<https://github.com/AnywidgetInstruments/afm-host-panel/security/advisories/new>
 (repository "Security" tab, then "Report a vulnerability").
 
 Include the plugin version, the Grafana version, the browser, the steps to

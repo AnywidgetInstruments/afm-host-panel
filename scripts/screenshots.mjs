@@ -70,18 +70,20 @@ async function shoot(
   console.log(plugin ? `${file}, ${PLUGIN}/${name}.png` : file);
 }
 
-// The anywidget-instruments gallery dashboard.
+// The anywidget-instruments-industrial gallery dashboard.
 const gallery = JSON.parse(readFileSync('provisioning/dashboards/instruments.json', 'utf8'));
 const GALLERY_WIDGETS = gallery.panels.filter((p) => p.type === 'scelles-afmhost-panel').length;
-const AUTOMOTIVES_ROW = 'anywidget-automotives cluster (preview, drawn with anywidget-instruments)';
+const AUTOMOTIVE_ROW = demo.panels.find(
+  (p) => p.type === 'row' && p.title.startsWith('anywidget-instruments-automotive')
+).title;
 
 try {
   for (const theme of ['dark', 'light']) {
     // The demonstration dashboard.
     await shoot(`demo-${theme}`, '/d/afm-host-demo?kiosk', { theme });
-    // The anywidget-automotives cluster preview of the demonstration dashboard.
-    await shoot(`automotives-${theme}`, '/d/afm-host-demo?kiosk', { theme, rows: [AUTOMOTIVES_ROW], plugin: false });
-    // The anywidget-instruments gallery.
+    // The anywidget-instruments-automotive cluster of the demonstration dashboard.
+    await shoot(`automotives-${theme}`, '/d/afm-host-demo?kiosk', { theme, rows: [AUTOMOTIVE_ROW], plugin: false });
+    // The anywidget-instruments-industrial gallery.
     await shoot(`instruments-${theme}`, '/d/afm-instruments-gallery?kiosk', {
       theme,
       height: 2000,

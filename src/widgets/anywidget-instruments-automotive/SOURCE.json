@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/AnywidgetInstruments/anywidget-instruments-automotive",
+  "commit": "dc2c98ca1b9b7e921fa5c6421854de35978f0f00",
+  "contractFormat": 1,
+  "contractVersion": "0.1.0.dev0",
+  "dirtyWorkingTree": false,
+  "license": "BSD-3-Clause"
+}

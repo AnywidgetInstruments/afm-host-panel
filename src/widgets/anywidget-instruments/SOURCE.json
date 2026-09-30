@@ -1,6 +1,6 @@
 {
-  "repository": "https://github.com/s-celles/anywidget-instruments",
-  "commit": "293aeea4190979218da5b515b25a1fabedd82901",
+  "repository": "https://github.com/AnywidgetInstruments/anywidget-instruments-industrial",
+  "commit": "978a89049393946a34612c519954f0359e5f4ba2",
   "contractFormat": 1,
   "contractVersion": "0.1.0.dev0",
   "dirtyWorkingTree": false,

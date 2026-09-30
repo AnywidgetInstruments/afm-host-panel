@@ -1,7 +1,7 @@
 site_name: afm-host-panel
 site_description: Grafana panel plugin hosting anywidget front-end modules (AFM)
-site_url: https://s-celles.github.io/afm-host-panel/
-repo_url: https://github.com/s-celles/afm-host-panel
+site_url: https://anywidgetinstruments.github.io/afm-host-panel/
+repo_url: https://github.com/AnywidgetInstruments/afm-host-panel
 edit_uri: ""
 # Buildable offline: no Google Fonts, no CDN assets.
 theme:
@@ -24,8 +24,8 @@ nav:
   - Home: index.md
   - User guide: guide.md
   - Built-in widgets:
-      - anywidget-instruments: instruments.md
-      - anywidget-automotives: automotives.md
+      - anywidget-instruments-industrial: instruments.md
+      - anywidget-instruments-automotive: automotives.md
   - Compatibility and limits: compatibility.md
   - Design: design.md
   - Specification: specification.md

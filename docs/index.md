@@ -20,21 +20,22 @@ The widgets follow the Grafana theme, light or dark.
 
     ---
 
-    [![anywidget-instruments gallery](img/instruments-dark.png#only-dark)](instruments.md)
-    [![anywidget-instruments gallery](img/instruments-light.png#only-light)](instruments.md)
+    [![anywidget-instruments-industrial gallery](img/instruments-dark.png#only-dark)](instruments.md)
+    [![anywidget-instruments-industrial gallery](img/instruments-light.png#only-light)](instruments.md)
 
     52 instrumentation widgets, bundled unmodified: gauges, tanks, LEDs,
     switches, process objects, charts.
 
--   **[anywidget-automotives](automotives.md)**
+-   **[anywidget-instruments-automotive](automotives.md)**
 
     ---
 
-    [![anywidget-automotives cluster preview](img/automotives-dark.png#only-dark)](automotives.md)
-    [![anywidget-automotives cluster preview](img/automotives-light.png#only-light)](automotives.md)
+    [![anywidget-instruments-automotive cluster](img/automotives-dark.png#only-dark)](automotives.md)
+    [![anywidget-instruments-automotive cluster](img/automotives-light.png#only-light)](automotives.md)
 
-    Previews of the automotive instruments (speedometer, tachometer, fuel,
-    coolant, tell-tale, trip computer).
+    The automotive instruments, bundled unmodified: speedometer, tachometer,
+    fuel, coolant, tell-tales, gear indicator, cluster. For visualization
+    only: no widget is meant to be operated while driving.
 
 </div>
 
@@ -52,8 +53,8 @@ dashboard variable or the time range (see the [User guide](guide.md)).
 ## Documentation
 
 - [User guide](guide.md): install, choose a widget, bind traits, write back.
-- [anywidget-instruments](instruments.md) and
-  [anywidget-automotives](automotives.md): the built-in widgets.
+- [anywidget-instruments-industrial](instruments.md) and
+  [anywidget-instruments-automotive](automotives.md): the built-in widgets.
 - [Compatibility and limits](compatibility.md): AFM compatibility matrix.
 - [Design](design.md): how the host works and why.
 - [Specification](specification.md): requirements (EARS, MoSCoW).
@@ -66,6 +67,6 @@ Screenshots are taken from the development server with
 
 | Project | What it is | Documentation |
 |---|---|---|
-| [anywidget-instruments](https://github.com/s-celles/anywidget-instruments) | Instrumentation widgets for notebooks: gauges, tanks, LEDs, switches, charts, alarms, SCADA objects | <https://s-celles.github.io/anywidget-instruments/> |
-| [anywidget-automotives](https://github.com/s-celles/anywidget-automotives) | Automotive instruments built on anywidget-instruments (design stage) | <https://s-celles.github.io/anywidget-automotives/> |
-| [afm-host-panel](https://github.com/s-celles/afm-host-panel) | Grafana panel plugin that runs anywidget modules, with both libraries built in | <https://s-celles.github.io/afm-host-panel/> |
+| [anywidget-instruments-industrial](https://github.com/AnywidgetInstruments/anywidget-instruments-industrial) | Instrumentation widgets for notebooks: gauges, tanks, LEDs, switches, charts, alarms, SCADA objects | <https://anywidgetinstruments.github.io/anywidget-instruments-industrial/> |
+| [anywidget-instruments-automotive](https://github.com/AnywidgetInstruments/anywidget-instruments-automotive) | Automotive instruments built on anywidget-instruments | <https://anywidgetinstruments.github.io/anywidget-instruments-automotive/> |
+| [afm-host-panel](https://github.com/AnywidgetInstruments/afm-host-panel) | Grafana panel plugin that runs anywidget modules, with both libraries built in | <https://anywidgetinstruments.github.io/afm-host-panel/> |

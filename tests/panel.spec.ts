@@ -4,10 +4,10 @@ import { expect, test } from '@grafana/plugin-e2e';
 
 // Grafana interpolates the panel titles, and the panel selectors use the
 // interpolated title: these are the default values of the demo variables.
-const DEFAULT_VARIABLES: Record<string, string> = { $count: '0', $engine: 'false' };
+const DEFAULT_VARIABLES: Record<string, string> = { $count: '0', $engine: 'false', $telltale: 'on', $gear: 'D' };
 const shownTitle = (title: string) => title.replace(/\$\w+/g, (v) => DEFAULT_VARIABLES[v] ?? v);
 
-// Loading a widget (and the anywidget-instruments bundle) can be slow on a cold server.
+// Loading a widget (and the anywidget-instruments bundles) can be slow on a cold server.
 const WIDGET_TIMEOUT = 30000;
 
 // Console errors of Grafana itself, not of the plugin, by message or source URL:
@@ -21,7 +21,7 @@ const GRAFANA_NOISE = [/\/livereload\.js/, /OpenFeature|OFREP/, /\/api\/dashboar
 // The provisioned dashboards, with their minimum number of AFM panels.
 const DASHBOARDS = [
   { name: 'the demo dashboard', fileName: 'demo.json', widgets: 13 },
-  { name: 'the anywidget-instruments gallery', fileName: 'instruments.json', widgets: 30 },
+  { name: 'the anywidget-instruments-industrial gallery', fileName: 'instruments.json', widgets: 30 },
 ];
 
 for (const { name, fileName, widgets } of DASHBOARDS) {
@@ -101,7 +101,7 @@ test('a click on the counter updates the dashboard variable', async ({
   await expect(dashboardPage.getPanelByTitle('Dashboard variable').locator).toContainText('count = 1');
 });
 
-test('an anywidget-instruments switch writes a variable read by an LED', async ({
+test('an anywidget-instruments-industrial switch writes a variable read by an LED', async ({
   gotoDashboardPage,
   readProvisionedDashboard,
   page,
@@ -117,6 +117,32 @@ test('an anywidget-instruments switch writes a variable read by an LED', async (
   const updated = dashboardPage.getPanelByTitle('ToggleSwitch (write-back to true)');
   await expect(updated.locator.getByRole('switch')).toHaveAttribute('aria-checked', 'true');
   await expect(dashboardPage.getPanelByTitle('LED (reads true)').locator).toBeVisible();
+});
+
+test('the anywidget-instruments-automotive widgets come from their own module', async ({
+  gotoDashboardPage,
+  readProvisionedDashboard,
+  page,
+}) => {
+  const dashboard = await readProvisionedDashboard({ fileName: 'demo.json' });
+  const dashboardPage = await gotoDashboardPage(dashboard);
+  const row = (dashboard.panels as Array<{ type?: string; title: string }>).find(
+    (p) => p.type === 'row' && p.title.startsWith('anywidget-instruments-automotive')
+  )!;
+  const gear = dashboardPage.getPanelByTitle(shownTitle('Gear ($gear)'));
+  await expect(async () => {
+    await page.getByText(row.title, { exact: true }).first().scrollIntoViewIfNeeded({ timeout: 2000 });
+    await gear.locator.scrollIntoViewIfNeeded({ timeout: 2000 });
+  }).toPass({ timeout: WIDGET_TIMEOUT });
+  // Drawn by the automotive views (.awa-root), not by industrial stand-ins.
+  await expect(gear.locator.locator('.awa-root').first()).toBeVisible({ timeout: WIDGET_TIMEOUT });
+  await expect(gear.locator).toContainText('D');
+  // Panels set only some traits: the others take their defaults, not an invalid state.
+  for (const title of ['Speedometer', 'Fuel', 'Coolant']) {
+    const panel = dashboardPage.getPanelByTitle(title);
+    await expect(panel.locator.locator('.awa-root').first(), title).toBeVisible({ timeout: WIDGET_TIMEOUT });
+    await expect(panel.locator.locator('.awa-root.awa-invalid'), title).toHaveCount(0);
+  }
 });
 
 test('a time range change reaches the widget traits', async ({ gotoDashboardPage, readProvisionedDashboard }) => {

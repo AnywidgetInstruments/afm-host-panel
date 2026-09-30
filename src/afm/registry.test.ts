@@ -1,8 +1,9 @@
 import { resolveWidget } from './loader';
-import { findWidget, importEsmText, listWidgets } from './registry';
+import { AUTOMOTIVE_SAFETY_NOTICE, findWidget, importEsmText, listWidgets } from './registry';
 import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments/kinds';
+import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
 
-describe('registry (LOAD-005, INT-001, INT-002)', () => {
+describe('registry (LOAD-005, INT-001, INT-002, INT-005)', () => {
   const originalCreate = URL.createObjectURL;
   const originalRevoke = URL.revokeObjectURL;
   afterEach(() => {
@@ -29,7 +30,7 @@ describe('registry (LOAD-005, INT-001, INT-002)', () => {
 
   it('lists every concrete anywidget-instruments widget with its _kind', () => {
     for (const [cls, kind] of Object.entries(INSTRUMENTS_KINDS)) {
-      const entry = findWidget(`anywidget_instruments:${cls}`);
+      const entry = findWidget(`anywidget_instruments_industrial:${cls}`);
       expect(entry?.defaults._kind).toBe(kind);
     }
   });
@@ -38,7 +39,7 @@ describe('registry (LOAD-005, INT-001, INT-002)', () => {
     // "system": the widget reads the data-theme of the panel container; the
     // default "auto" lets the widget style decide, whatever the Grafana theme.
     for (const cls of Object.keys(INSTRUMENTS_KINDS)) {
-      expect(findWidget(`anywidget_instruments:${cls}`)?.defaults.theme).toBe('system');
+      expect(findWidget(`anywidget_instruments_industrial:${cls}`)?.defaults.theme).toBe('system');
     }
   });
 
@@ -47,9 +48,9 @@ describe('registry (LOAD-005, INT-001, INT-002)', () => {
     URL.createObjectURL = jest.fn().mockReturnValue('blob:test/instruments');
     URL.revokeObjectURL = jest.fn();
     const importer = jest.fn().mockResolvedValue({ default: { render() {} } });
-    const entry = findWidget('anywidget_instruments:Gauge')!;
+    const entry = findWidget('anywidget_instruments_industrial:Gauge')!;
     const first = await entry.load(importer);
-    const second = await findWidget('anywidget_instruments:Tank')!.load(importer);
+    const second = await findWidget('anywidget_instruments_industrial:Tank')!.load(importer);
     expect(importer).toHaveBeenCalledTimes(1); // one module shared by all the widgets
     expect(importer.mock.calls[0][0]).toMatch(/^blob:/);
     expect(first.module).toBe(second.module);
@@ -57,27 +58,41 @@ describe('registry (LOAD-005, INT-001, INT-002)', () => {
     expect('text' in first.css[0] && first.css[0].text).toContain('.awi-root');
   });
 
-  it('maps the anywidget-automotives previews to anywidget-instruments widgets', () => {
-    const previews = listWidgets().filter((w) => w.id.startsWith('anywidget_automotives:'));
-    expect(previews.map((w) => w.id)).toEqual(
-      expect.arrayContaining([
-        'anywidget_automotives:Speedometer',
-        'anywidget_automotives:Tachometer',
-        'anywidget_automotives:FuelGauge',
-        'anywidget_automotives:TemperatureGauge',
-        'anywidget_automotives:TellTale',
-        'anywidget_automotives:TripComputer',
-      ])
+  it('lists every concrete anywidget-instruments-automotive widget with its _kind', () => {
+    expect(Object.keys(AUTOMOTIVE_KINDS)).toEqual(
+      expect.arrayContaining(['Cluster', 'Speedometer', 'Tachometer', 'FuelGauge', 'TellTale', 'TripComputer'])
     );
-    const kinds = new Set(Object.values(INSTRUMENTS_KINDS));
-    for (const p of previews) {
-      expect(p.preview).toBe(true);
-      expect(kinds.has(p.defaults._kind as string)).toBe(true);
+    for (const [cls, kind] of Object.entries(AUTOMOTIVE_KINDS)) {
+      const entry = findWidget(`anywidget_instruments_automotive:${cls}`);
+      expect(entry?.defaults).toEqual({ _kind: kind, theme: 'system' });
     }
-    expect(findWidget('anywidget_automotives:Speedometer')!.defaults).toMatchObject({
-      _kind: 'gauge',
-      unit: 'km/h',
-    });
+  });
+
+  it('carries the safety notice with every automotive widget', () => {
+    const automotive = listWidgets().filter((w) => w.id.startsWith('anywidget_instruments_automotive:'));
+    expect(automotive).toHaveLength(Object.keys(AUTOMOTIVE_KINDS).length);
+    for (const w of automotive) {
+      expect(w.description).toContain(AUTOMOTIVE_SAFETY_NOTICE);
+    }
+    expect(AUTOMOTIVE_SAFETY_NOTICE).toMatch(/operated while driving/);
+  });
+
+  it('loads anywidget-instruments-automotive from its own unmodified ESM text, with its CSS', async () => {
+    URL.createObjectURL = jest.fn().mockReturnValue('blob:test/automotive');
+    URL.revokeObjectURL = jest.fn();
+    const importer = jest.fn().mockResolvedValue({ default: { render() {} } });
+    const first = await findWidget('anywidget_instruments_automotive:Speedometer')!.load(importer);
+    const second = await findWidget('anywidget_instruments_automotive:TellTale')!.load(importer);
+    expect(importer).toHaveBeenCalledTimes(1);
+    expect(first.module).toBe(second.module);
+    const css = 'text' in first.css[0] ? first.css[0].text : '';
+    expect(css).toContain('.awa-root');
+    expect(css).toContain('.awi-root'); // the base styles come with the module
+  });
+
+  it('keeps no entry under the former names', () => {
+    const ids = listWidgets().map((w) => w.id);
+    expect(ids.filter((id) => /^anywidget_(instruments|automotives):/.test(id))).toEqual([]);
   });
 
   it('returns undefined for an unknown id', () => {

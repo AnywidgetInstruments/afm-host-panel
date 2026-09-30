@@ -62,11 +62,14 @@ Grafana (PanelProps) ──► mapping.ts ──► traits ──► model.ts (s
    the anywidget-instruments widgets. An option turns isolation off for
    widgets that search the whole `document` for their own nodes.
 2. **Mode A: built-in registry.** Widgets bundled with the plugin, loaded
-   lazily as webpack chunks, so that the 800 kB anywidget-instruments bundle
-   is only fetched by panels using it. Entries are named `module:Class`, the
-   convention of CAN & CANopen Studio (`anywidget_instruments:Gauge`). The
-   anywidget-instruments front end is vendored unmodified, with its license
-   and commit, by `scripts/vendor-instruments.mjs`.
+   lazily as webpack chunks, so that the 800 kB anywidget-instruments-industrial
+   bundle is only fetched by panels using it. Entries are named
+   `module:Class`, the convention of CAN & CANopen Studio
+   (`anywidget_instruments_industrial:Gauge`). The industrial and automotive
+   front ends are vendored unmodified, each with its license and commit, by
+   `scripts/vendor-instruments.mjs` and `scripts/vendor-automotive.mjs`. Each
+   is a self-contained module with its own copy of the base view and styles,
+   loaded in its own chunk.
 3. **Mode B: module from a URL.** `import(/* webpackIgnore: true */ url)`.
    Running remote code in the Grafana page is equivalent to letting editors
    write unsanitized HTML, so mode B is enabled only when the Grafana server
@@ -108,7 +111,4 @@ Grafana (PanelProps) ──► mapping.ts ──► traits ──► model.ts (s
 
 - Answering `sync_request` for anywidget-instruments graphs (binary buffers)
   from data frames.
-- anywidget-automotives widgets are not implemented upstream yet; the
-  registry reserves the `anywidget_automotives:` prefix and the demo uses
-  anywidget-instruments widgets arranged as its cluster preview.
 - Behavior under the frontend sandbox and a strict CSP.

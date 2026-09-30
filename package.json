@@ -81,6 +81,6 @@
   "description": "Grafana panel plugin hosting anywidget front-end modules (AFM)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/s-celles/afm-host-panel"
+    "url": "https://github.com/AnywidgetInstruments/afm-host-panel"
   }
 }

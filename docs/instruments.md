@@ -1,27 +1,27 @@
-# anywidget-instruments
+# anywidget-instruments-industrial
 
-[anywidget-instruments](https://s-celles.github.io/anywidget-instruments/)
+[anywidget-instruments-industrial](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/)
 provides instrumentation widgets for notebooks: gauges, meters, tanks,
 thermometers, LEDs, switches, push buttons, emergency stop, charts, alarm
 annunciators and SCADA objects. The plugin bundles its front end
 **unmodified**, so the 52 widgets are available in Grafana without a URL or
-network access, as built-in widgets named `anywidget_instruments:<Class>`.
+network access, as built-in widgets named `anywidget_instruments_industrial:<Class>`.
 
-![The anywidget-instruments gallery dashboard](img/instruments-dark.png#only-dark)
-![The anywidget-instruments gallery dashboard](img/instruments-light.png#only-light)
+![The anywidget-instruments-industrial gallery dashboard](img/instruments-dark.png#only-dark)
+![The anywidget-instruments-industrial gallery dashboard](img/instruments-light.png#only-light)
 
-*The **anywidget-instruments gallery** dashboard of the development server
+*The **anywidget-instruments-industrial gallery** dashboard of the development server
 (`just server`): 30 widgets, grouped as in the
-[widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
+[widget catalog](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/widgets/),
 with the indicators fed by TestData. It follows the Grafana theme.*
 
 ## Use a widget in a panel
 
 1. In the panel editor, section **Widget**, choose **Built-in widget**, then
-   a widget of the **anywidget-instruments** group, for example
-   `anywidget_instruments:Tank`.
+   a widget of the **anywidget-instruments-industrial** group, for example
+   `anywidget_instruments_industrial:Tank`.
 2. In **Static traits**, set the traits of the widget, with the names and
-   values of the [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/):
+   values of the [widget catalog](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/widgets/):
 
     ```json
     {"label": "T-101", "unit": "m", "max": 5, "lo": 0.5, "hi": 4.5, "show_limits": true}
@@ -36,7 +36,7 @@ can be overridden.
 
 ## Widgets by family
 
-The families of the [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
+The families of the [widget catalog](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/widgets/),
 and what they need in Grafana:
 
 | Family | Widgets | In Grafana |
@@ -60,13 +60,12 @@ For the Grafana time series, prefer the Grafana visualizations (or the
 A control saves its `value` when the operator acts on it. With the
 **Write-back** column of the binding set to **Variable**, the value goes to a
 dashboard variable that other panels read. On the demonstration dashboard,
-`ToggleSwitch` writes the `engine` variable, which an `LED` and the
-anywidget-automotives tell-tale read:
+`ToggleSwitch` writes the `engine` variable, which an `LED` reads:
 
 ![The demonstration dashboard](img/demo-dark.png#only-dark)
 ![The demonstration dashboard](img/demo-light.png#only-light)
 
-anywidget-instruments also computes some traits in the browser
+anywidget-instruments-industrial also computes some traits in the browser
 (`alarm_level`, `peak`, ...) and saves them; without a binding, they are
 ignored with one console warning per trait.
 
@@ -74,21 +73,21 @@ ignored with one console warning per trait.
 
 The bundled front end is the commit recorded in
 `src/widgets/anywidget-instruments/SOURCE.json`, under its BSD-3-Clause
-license. [Development](development.md#updating-anywidget-instruments) gives
+license. [Development](development.md#updating-the-vendored-libraries) gives
 the steps to update it.
 
 ## See also
 
-- [anywidget-instruments documentation](https://s-celles.github.io/anywidget-instruments/):
-  [widget catalog](https://s-celles.github.io/anywidget-instruments/widgets/),
-  [trait contract](https://s-celles.github.io/anywidget-instruments/trait-contract/),
-  [hosts](https://s-celles.github.io/anywidget-instruments/hosts/),
-  [safety notice](https://s-celles.github.io/anywidget-instruments/safety/).
-- [anywidget-automotives](automotives.md): automotive previews drawn with
-  these widgets.
+- [anywidget-instruments-industrial documentation](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/):
+  [widget catalog](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/widgets/),
+  [trait contract](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/trait-contract/),
+  [hosts](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/hosts/),
+  [safety notice](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/safety/).
+- [anywidget-instruments-automotive](automotives.md): the automotive
+  instruments, built on the same base.
 - [Compatibility and limits](compatibility.md).
 
 !!! warning "Safety"
-    Like anywidget-instruments itself, these widgets are for visualization,
+    Like anywidget-instruments-industrial itself, these widgets are for visualization,
     teaching, simulation and supervision. They are not a safety-related
     system, and `EmergencyStop` is not an emergency stop device.

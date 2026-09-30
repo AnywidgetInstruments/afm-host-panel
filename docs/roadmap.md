@@ -15,5 +15,4 @@ phase reached.
 | 6 | 0.0.7 | End-to-end tests, plugin validator, user documentation | QA, DOC |
 
 After phase 6: answering `sync_request` from data frames for the graphs of
-anywidget-instruments, testing under the frontend sandbox and a strict CSP,
-and the anywidget-automotives widgets once they are published.
+anywidget-instruments, and testing under the frontend sandbox and a strict CSP.

@@ -3,15 +3,15 @@
 // `module:Class`.
 //
 // - `examples:*`: the demonstration widgets of examples/, imported as modules.
-// - `anywidget_instruments:*`: the anywidget-instruments front end, vendored
-//   unmodified as ESM text and imported through a blob: URL, as anywidget
-//   hosts load `_esm` (INT-001).
-// - `anywidget_automotives:*`: previews of the planned anywidget-automotives
-//   widgets, drawn with anywidget-instruments widgets as in its cluster
-//   preview, until anywidget-automotives publishes its front end (INT-002).
+// - `anywidget_instruments_industrial:*`: the anywidget-instruments-industrial
+//   front end, vendored unmodified as ESM text and imported through a blob:
+//   URL, as anywidget hosts load `_esm` (INT-001).
+// - `anywidget_instruments_automotive:*`: the anywidget-instruments-automotive
+//   front end, vendored and loaded the same way (INT-002).
 import type { CssSource } from './loader';
 import type { Traits } from './model';
 import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments/kinds';
+import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
 
 export type Importer = (url: string) => Promise<unknown>;
 
@@ -29,8 +29,6 @@ export interface RegistryEntry {
   description: string;
   /** Traits set before the panel's own traits. */
   defaults: Traits;
-  /** True for a stand-in of a widget that is not published yet. */
-  preview?: boolean;
   load(importer?: Importer): Promise<LoadedWidget>;
 }
 
@@ -72,7 +70,7 @@ const examples: RegistryEntry[] = [
   },
 ].map((e) => ({ ...e, group: 'Examples' }));
 
-// anywidget-instruments ------------------------------------------------------
+// anywidget-instruments-industrial -------------------------------------------
 
 let instruments: Promise<LoadedWidget> | undefined;
 
@@ -91,64 +89,48 @@ function loadInstruments(importer?: Importer): Promise<LoadedWidget> {
 }
 
 const instrumentEntries: RegistryEntry[] = Object.entries(INSTRUMENTS_KINDS).map(([cls, kind]) => ({
-  id: `anywidget_instruments:${cls}`,
+  id: `anywidget_instruments_industrial:${cls}`,
   label: cls,
-  group: 'anywidget-instruments',
-  description: `anywidget-instruments ${cls} (_kind "${kind}").`,
+  group: 'anywidget-instruments-industrial',
+  description: `anywidget-instruments-industrial ${cls} (_kind "${kind}").`,
   // "system": follow the data-theme of the panel container (the Grafana theme).
   defaults: { _kind: kind, theme: 'system' },
   load: loadInstruments,
 }));
 
-// anywidget-automotives previews ---------------------------------------------
+// anywidget-instruments-automotive -------------------------------------------
 
-// Traits of the cluster preview of anywidget-automotives
-// (lite/marimo/cluster_preview.py), drawn with anywidget-instruments.
-const AMBER = '#ffb300';
-const RED = '#d32f2f';
-const OFF = '#3a3a3a';
+/** Shown with every automotive widget (INT-005). */
+export const AUTOMOTIVE_SAFETY_NOTICE =
+  'For visualization and teaching only, not a vehicle instrument: no widget is meant to be operated while driving.';
 
-const automotives: Array<[string, string, string, Traits]> = [
-  ['Speedometer', 'Gauge', 'Vehicle speed', { min: 0, max: 200, unit: 'km/h', label: 'Speed' }],
-  [
-    'Tachometer',
-    'Gauge',
-    'Engine speed with amber and red zones',
-    {
-      min: 0,
-      max: 7000,
-      unit: 'rpm',
-      label: 'Engine speed',
-      ranges: [
-        { from: 5500, to: 6200, color: AMBER },
-        { from: 6200, to: 7000, color: RED },
-      ],
-    },
-  ],
-  [
-    'FuelGauge',
-    'Tank',
-    'Fuel level with low-fuel limit',
-    { min: 0, max: 100, unit: '%', label: 'Fuel', lo: 12, show_limits: true },
-  ],
-  [
-    'TemperatureGauge',
-    'Thermometer',
-    'Coolant temperature',
-    { min: 40, max: 130, unit: '°C', label: 'Coolant', hi: 110, hihi: 115 },
-  ],
-  ['TellTale', 'LED', 'Tell-tale (engine warning, amber)', { label: 'Engine', on_color: AMBER, off_color: OFF }],
-  ['TripComputer', 'SevenSegment', 'Trip computer figure', { digits: 4, decimals: 1, unit: 'L/h', label: 'Fuel rate' }],
-];
+let automotive: Promise<LoadedWidget> | undefined;
 
-const automotiveEntries: RegistryEntry[] = automotives.map(([cls, base, description, traits]) => ({
-  id: `anywidget_automotives:${cls}`,
-  label: `${cls} (preview)`,
-  group: 'anywidget-automotives (preview)',
-  description: `${description}. Preview drawn with anywidget-instruments ${base}; anywidget-automotives has not published its widgets yet.`,
-  defaults: { _kind: INSTRUMENTS_KINDS[base], theme: 'system', ...traits },
-  preview: true,
-  load: loadInstruments,
+function loadAutomotive(importer?: Importer): Promise<LoadedWidget> {
+  if (!automotive) {
+    automotive = (async () => {
+      const [{ default: esm }, { default: css }] = await Promise.all([
+        import(
+          /* webpackChunkName: "anywidget-instruments-automotive" */ '../widgets/anywidget-instruments-automotive/esm'
+        ),
+        import(
+          /* webpackChunkName: "anywidget-instruments-automotive" */ '../widgets/anywidget-instruments-automotive/css'
+        ),
+      ]);
+      return { module: await importEsmText(esm, importer), css: [{ text: css }] };
+    })();
+    automotive.catch(() => (automotive = undefined)); // retry on the next request
+  }
+  return automotive;
+}
+
+const automotiveEntries: RegistryEntry[] = Object.entries(AUTOMOTIVE_KINDS).map(([cls, kind]) => ({
+  id: `anywidget_instruments_automotive:${cls}`,
+  label: cls,
+  group: 'anywidget-instruments-automotive',
+  description: `anywidget-instruments-automotive ${cls} (_kind "${kind}"). ${AUTOMOTIVE_SAFETY_NOTICE}`,
+  defaults: { _kind: kind, theme: 'system' },
+  load: loadAutomotive,
 }));
 
 const ALL: RegistryEntry[] = [...examples, ...instrumentEntries, ...automotiveEntries];

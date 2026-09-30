@@ -1,6 +1,6 @@
 # Specification
 
-Version 0.1 (2026-09-28). Requirements use the Easy Approach to Requirements
+Version 0.2 (2026-09-30). Requirements use the Easy Approach to Requirements
 Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 **W** won't (this time). Design choices are explained in [Design](design.md).
 
@@ -68,10 +68,11 @@ Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 
 | ID | Pri | Requirement |
 |---|---|---|
-| INT-001 | M | The registry shall include widgets of anywidget-instruments, bundled without modification of their code. |
-| INT-002 | S | The registry shall reserve the `anywidget_automotives:` prefix; the demo shall show an automotive cluster built from anywidget-instruments widgets until anywidget-automotives ships widgets. |
+| INT-001 | M | The registry shall include the widgets of anywidget-instruments-industrial, named `anywidget_instruments_industrial:<Class>` and bundled without modification of their code. |
+| INT-002 | S | The registry shall include the widgets of anywidget-instruments-automotive, named `anywidget_instruments_automotive:<Class>` and bundled without modification of their code; the demo shall show an automotive cluster built from them. |
 | INT-003 | M | The repository shall include three demonstration widgets: a counter (write-back), a gauge (scalar value) and a sparkline (series). |
 | INT-004 | M | The development server shall provision a demo dashboard on the TestData data source with one panel per demonstration widget. |
+| INT-005 | M | The registry descriptions and the documentation of the automotive widgets shall carry the safety notice: the widgets are not vehicle instruments, and none is meant to be operated while driving. |
 
 ## Quality and documentation (QA, DOC)
 
@@ -89,3 +90,4 @@ Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 | Version | Date | Changes |
 |---|---|---|
 | 0.1 | 2026-09-28 | First version. |
+| 0.2 | 2026-09-30 | INT-001, INT-002: the libraries are named anywidget-instruments-industrial and anywidget-instruments-automotive, with the prefixes `anywidget_instruments_industrial:` and `anywidget_instruments_automotive:` (the former prefixes are removed); the automotive widgets are bundled instead of previews drawn with industrial widgets. INT-005: safety notice of the automotive widgets. |
