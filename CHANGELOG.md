@@ -8,6 +8,14 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ## [Unreleased]
 
+### Added
+
+- The graphs of anywidget-instruments-industrial fed by messages draw the
+  query results: `Sparkline`, `KPITile`, `TrendChart`, `WaveformChart` and
+  `XYGraph` get a snapshot built from the data frames in answer to their
+  `sync_request` and on every data change; pens, series and traces default
+  to the number fields (MAP-011 .. MAP-013). The gallery dashboard shows them.
+
 ### Changed
 
 - Both libraries now build on the anywidget-instruments core: industrial

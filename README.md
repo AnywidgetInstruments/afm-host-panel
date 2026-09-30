@@ -22,7 +22,7 @@ Other AFM modules can be loaded from a URL when the server allows it.
   <img alt="The demonstration dashboard: example widgets, anywidget-instruments-industrial and an automotive cluster" src="docs/img/demo-light.png">
 </picture>
 
-The anywidget-instruments-industrial gallery dashboard: 30 of the 52 built-in
+The anywidget-instruments-industrial gallery dashboard: 34 of the 52 built-in
 industrial widgets.
 
 <picture>

@@ -88,8 +88,12 @@ Grafana (PanelProps) ──► mapping.ts ──► traits ──► model.ts (s
    saved traits are ignored with one console warning per trait.
 6. **`send`.** Messages go to the host, which logs them at debug level.
    `callbacks` are accepted and never called, since no kernel replies.
-   `sync_request` messages are answered for built-in widgets that declare how
-   (not in the first version).
+   The graphs of anywidget-instruments-industrial fed by messages
+   (`Sparkline`, `KPITile`, `TrendChart`, `WaveformChart`, `XYGraph`) get
+   their history from the query results instead of a kernel: the panel
+   answers their `sync_request`, and sends a new message on every data change,
+   in the layout of their trait contract (`src/afm/series.ts`, MAP-011 ..
+   MAP-013).
 
 ## CSP and frontend sandbox
 
@@ -109,6 +113,6 @@ Grafana (PanelProps) ──► mapping.ts ──► traits ──► model.ts (s
 
 ## Open points
 
-- Answering `sync_request` for anywidget-instruments graphs (binary buffers)
-  from data frames.
+- The graphs fed by messages that the query results do not map to yet:
+  `IntensityChart`, `DigitalWaveformGraph`, `MixedSignalGraph`.
 - Behavior under the frontend sandbox and a strict CSP.

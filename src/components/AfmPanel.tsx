@@ -18,6 +18,7 @@ import {
   WidgetInstance,
 } from '../afm/loader';
 import { Diagnostic, mapTraits, planWriteBack, WriteBackWarnings } from '../afm/mapping';
+import { derivedTraits, seriesMessage } from '../afm/series';
 import { AfmModel, Traits } from '../afm/model';
 import { applyOptionsWriteBack, parseStaticTraits } from '../afm/options';
 import { findWidget } from '../afm/registry';
@@ -82,13 +83,19 @@ export const AfmPanel: React.FC<Props> = (props) => {
 
   const entry = options.mode === 'builtin' ? findWidget(options.widget) : undefined;
   const mapped = mapTraits(options.bindings ?? [], { series: data.series, timeRange, replaceVariables });
+  // The graphs of anywidget-instruments-industrial are fed by messages built
+  // from the query results (MAP-011 .. MAP-013).
+  const feedsMessages = options.mode === 'builtin' && options.widget.startsWith('anywidget_instruments_industrial:');
+  const own: Traits = { ...(entry?.defaults ?? {}), ...lastStatic, ...mapped.traits };
   const traits: Traits = {
     ...(entry?.defaults ?? {}),
+    ...(feedsMessages ? derivedTraits(own._kind, data.series, own) : {}),
     ...lastStatic,
     ...mapped.traits,
     ...(options.sizeTraits ? { width, height } : {}),
   };
   const latestTraits = useRef(traits);
+  const latestSeries = useRef(data.series);
   const diagnostics: Diagnostic[] = mapped.diagnostics;
   const themeName: 'light' | 'dark' = theme.isDark ? 'dark' : 'light';
   const latestTheme = useRef(themeName);
@@ -98,6 +105,7 @@ export const AfmPanel: React.FC<Props> = (props) => {
   useEffect(() => {
     latest.current = { options, onOptionsChange };
     latestTraits.current = traits;
+    latestSeries.current = data.series;
     latestTheme.current = themeName;
   });
 
@@ -129,7 +137,19 @@ export const AfmPanel: React.FC<Props> = (props) => {
       }
     };
     const onSend = (content: unknown, buffers: DataView[]) => {
+      if (feedsMessages && (content as { type?: unknown } | null)?.type === 'sync_request') {
+        // answered once the widget has finished building its view (MAP-011)
+        queueMicrotask(() => sendSeries());
+        return;
+      }
       console.info('[afm-host] message from the widget (no kernel to receive it)', content, buffers);
+    };
+    const sendSeries = () => {
+      const model = started?.model;
+      const message = model && seriesMessage(latestTraits.current._kind, latestSeries.current, latestTraits.current);
+      if (model && message) {
+        model.emitCustom(message.content, message.buffers);
+      }
     };
 
     (async () => {
@@ -210,6 +230,21 @@ export const AfmPanel: React.FC<Props> = (props) => {
   useEffect(() => {
     running.current?.container.setTheme(themeName);
   }, [themeName]);
+
+  // New query results: a new message for the graphs fed by messages (MAP-012).
+  // A new view asks for its first one with sync_request (MAP-011).
+  useEffect(() => {
+    const r = running.current;
+    if (!r || !feedsMessages) {
+      return;
+    }
+    const message = seriesMessage(traits._kind, data.series, traits);
+    if (message) {
+      r.model.emitCustom(message.content, message.buffers);
+    }
+    // Only the data (and the widget) decide; the traits are read as they are now.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.series, feedsMessages]);
 
   return (
     <div className={styles.wrapper} data-testid="afm-panel" style={{ width, height }}>

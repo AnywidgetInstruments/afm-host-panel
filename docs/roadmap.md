@@ -14,5 +14,7 @@ phase reached.
 | 5 | 0.0.6 | Demonstration widgets, anywidget-instruments and anywidget-automotives integration, provisioned dashboards | INT |
 | 6 | 0.0.7 | End-to-end tests, plugin validator, user documentation | QA, DOC |
 
-After phase 6: answering `sync_request` from data frames for the graphs of
-anywidget-instruments, and testing under the frontend sandbox and a strict CSP.
+After phase 6: feeding the graphs of anywidget-instruments-industrial from the
+query results (done for `Sparkline`, `KPITile`, `TrendChart`, `WaveformChart`
+and `XYGraph`; `IntensityChart` and the digital graphs remain), and testing
+under the frontend sandbox and a strict CSP.

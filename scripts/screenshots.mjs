@@ -86,7 +86,7 @@ try {
     // The anywidget-instruments-industrial gallery.
     await shoot(`instruments-${theme}`, '/d/afm-instruments-gallery?kiosk', {
       theme,
-      height: 2000,
+      height: 2400,
       widgets: GALLERY_WIDGETS,
       rows: ['Numeric indicators'],
       plugin: theme === 'dark',

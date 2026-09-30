@@ -11,7 +11,7 @@ network access, as built-in widgets named `anywidget_instruments_industrial:<Cla
 ![The anywidget-instruments-industrial gallery dashboard](img/instruments-light.png#only-light)
 
 *The **anywidget-instruments-industrial gallery** dashboard of the development server
-(`just server`): 30 widgets, grouped as in the
+(`just server`): 34 widgets, grouped as in the
 [widget catalog](https://anywidgetinstruments.github.io/anywidget-instruments-industrial/widgets/),
 with the indicators fed by TestData. It follows the Grafana theme.*
 
@@ -49,11 +49,30 @@ and what they need in Grafana:
 | Process objects | `Valve`, `Pump`, `Motor`, `Pipe` | state (`"open"`, `"running"`, ...) from a variable or static traits |
 | Specialized charts | `RadarChart`, `PolarPlot`, `SmithChart` | data sets in `value` (static or JSON variable) |
 | Alarms and events | `AlarmIndicator`, `AlarmBanner`, `AlarmList`, `Annunciator`, `EventLog` | alarms in `value` (static or JSON variable) |
-| Graphs fed by messages | `TrendChart`, `WaveformChart`, `IntensityChart`, `DigitalWaveformGraph`, `MixedSignalGraph`, `XYGraph`, `Sparkline` | draw nothing yet: they receive their data as messages from a kernel ([limits](compatibility.md#limits)) |
+| Graphs fed by the query | `Sparkline`, `KPITile`, `TrendChart`, `WaveformChart`, `XYGraph` | the query results, sent as messages by the panel ([below](#graphs-fed-by-the-query)) |
+| Graphs fed by a kernel | `IntensityChart`, `DigitalWaveformGraph`, `MixedSignalGraph` | draw nothing yet: they receive their data as messages from a kernel ([limits](compatibility.md#limits)) |
 | Supervisory objects | `PIDFaceplate`, `StateMachine`, `RecipeTable`, `EquipmentTree`, `SvgPanel`, `SynopticCanvas`, `PictureControl`, `ThemeSwitch` | static traits; the parts that expect a kernel stay idle |
 
-For the Grafana time series, prefer the Grafana visualizations (or the
-`examples:Sparkline` widget, fed with all the values of a field).
+## Graphs fed by the query
+
+These graphs do not read their data from traits: in a notebook, the kernel
+sends them their history as messages with binary buffers. In Grafana, the
+panel builds those messages from the query results, answers the graph when it
+asks for its data, and sends a new message every time the data change:
+
+| Widget | Data sent | Set by the panel when you set none |
+|---|---|---|
+| `Sparkline`, `KPITile` | the last `history` values of the first number field | |
+| `TrendChart` | one pen per number field, its times from the time field | `pens`, named after the fields |
+| `WaveformChart` | one trace per number field, the last `history` points | `n_traces` |
+| `XYGraph` | the first number field as x, one set per other field (the time as x when there is one field) | `series`, named after the fields |
+
+Pens and series set in the static traits are matched to the fields by name,
+then by order. The **Graphs fed by the query** row of the gallery dashboard
+shows the four of them fed by TestData.
+
+For plain Grafana time series, the Grafana visualizations remain the better
+choice.
 
 ## Write back to a dashboard variable
 

@@ -935,6 +935,175 @@
         "isolation": "shadow",
         "showDiagnostics": false
       }
+    },
+    {
+      "type": "row",
+      "id": 36,
+      "title": "Graphs fed by the query",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 50,
+        "w": 24,
+        "h": 1
+      },
+      "panels": []
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 37,
+      "title": "Sparkline",
+      "gridPos": {
+        "x": 0,
+        "y": 51,
+        "w": 4,
+        "h": 9
+      },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_industrial:Sparkline",
+        "staticTraits": "{\n  \"label\": \"Flow\",\n  \"unit\": \"m\\u00b3/h\",\n  \"history\": 120\n}",
+        "bindings": [],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": false
+      },
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "trlxrdZVk"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "trlxrdZVk"
+          },
+          "scenarioId": "random_walk",
+          "seriesCount": 1,
+          "min": 0,
+          "max": 100,
+          "startValue": 50,
+          "spread": 3
+        }
+      ]
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 38,
+      "title": "TrendChart",
+      "gridPos": {
+        "x": 4,
+        "y": 51,
+        "w": 8,
+        "h": 9
+      },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_industrial:TrendChart",
+        "staticTraits": "{\n  \"label\": \"Reactor\",\n  \"size\": [\n    420,\n    240\n  ]\n}",
+        "bindings": [],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": false
+      },
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "trlxrdZVk"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "trlxrdZVk"
+          },
+          "scenarioId": "random_walk",
+          "seriesCount": 2,
+          "min": 20,
+          "max": 90,
+          "startValue": 55,
+          "spread": 2
+        }
+      ]
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 39,
+      "title": "WaveformChart",
+      "gridPos": {
+        "x": 12,
+        "y": 51,
+        "w": 7,
+        "h": 9
+      },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_industrial:WaveformChart",
+        "staticTraits": "{\n  \"label\": \"Vibration\",\n  \"size\": [\n    380,\n    240\n  ],\n  \"history\": 200,\n  \"autoscale_y\": true\n}",
+        "bindings": [],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": false
+      },
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "trlxrdZVk"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "trlxrdZVk"
+          },
+          "scenarioId": "random_walk",
+          "seriesCount": 2,
+          "min": -10,
+          "max": 10,
+          "startValue": 0,
+          "spread": 2
+        }
+      ]
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 40,
+      "title": "XYGraph",
+      "gridPos": {
+        "x": 19,
+        "y": 51,
+        "w": 5,
+        "h": 9
+      },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_industrial:XYGraph",
+        "staticTraits": "{\n  \"label\": \"B against A\",\n  \"size\": [\n    300,\n    240\n  ]\n}",
+        "bindings": [],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": false
+      },
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "trlxrdZVk"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "trlxrdZVk"
+          },
+          "scenarioId": "random_walk",
+          "seriesCount": 2,
+          "min": 0,
+          "max": 100,
+          "startValue": 50,
+          "spread": 4
+        }
+      ]
     }
   ],
   "refresh": "",

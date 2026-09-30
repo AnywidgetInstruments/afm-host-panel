@@ -1,6 +1,6 @@
 # Specification
 
-Version 0.2 (2026-09-30). Requirements use the Easy Approach to Requirements
+Version 0.3 (2026-09-30). Requirements use the Easy Approach to Requirements
 Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 **W** won't (this time). Design choices are explained in [Design](design.md).
 
@@ -51,6 +51,9 @@ Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 | MAP-008 | S | When the widget saves a trait bound to the panel options, the panel shall store the value in its static traits. |
 | MAP-009 | M | When the widget saves a trait without a write-back binding, the panel shall ignore it and log one console warning for that trait. |
 | MAP-010 | S | Where the options ask for it, the panel shall set the `width` and `height` traits to the panel size in pixels. |
+| MAP-011 | S | Where the widget is an anywidget-instruments-industrial graph fed by messages (`Sparkline`, `KPITile`, `TrendChart`, `WaveformChart`, `XYGraph`), the panel shall answer its `sync_request` with the message its contract describes, built from the query results: the number fields of the frames, with the time field as the time of a `TrendChart` and the x of an `XYGraph` that has a single number field. |
+| MAP-012 | S | When the query results change, the panel shall send the widget of MAP-011 a new message built from them. |
+| MAP-013 | S | Where the static traits and the bindings set no `pens` (`TrendChart`), `series` (`XYGraph`) or `n_traces` (`WaveformChart`), the panel shall derive them from the number fields, named after the fields. |
 
 ## Panel and editor (PNL)
 
@@ -91,3 +94,4 @@ Syntax (EARS). Priorities follow MoSCoW: **M** must, **S** should, **C** could,
 |---|---|---|
 | 0.1 | 2026-09-28 | First version. |
 | 0.2 | 2026-09-30 | INT-001, INT-002: the libraries are named anywidget-instruments-industrial and anywidget-instruments-automotive, with the prefixes `anywidget_instruments_industrial:` and `anywidget_instruments_automotive:` (the former prefixes are removed); the automotive widgets are bundled instead of previews drawn with industrial widgets. INT-005: safety notice of the automotive widgets. |
+| 0.3 | 2026-09-30 | MAP-011 .. MAP-013: the graphs of anywidget-instruments-industrial are fed from the query results through their messages (answer to `sync_request`, new message on every data change, pens, series and traces derived from the fields). |

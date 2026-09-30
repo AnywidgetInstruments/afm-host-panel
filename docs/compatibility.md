@@ -35,9 +35,13 @@ Checked against the AFM specification of anywidget 0.11.0 and
 
 - **No kernel.** Widgets that expect a Python (or other) kernel to answer
   (`send` then wait for a reply, `sync_request` for history, computed traits
-  arriving from Python) show their default state. Examples: the
-  anywidget-instruments graphs that receive data as messages (`TrendChart`,
-  `WaveformChart`, `Sparkline`, ...) draw nothing yet.
+  arriving from Python) show their default state. The panel stands in for the
+  kernel for the graphs of anywidget-instruments-industrial whose data are
+  time series: `Sparkline`, `KPITile`, `TrendChart`, `WaveformChart` and
+  `XYGraph` are fed from the query results (see
+  [anywidget-instruments-industrial](instruments.md#graphs-fed-by-the-query)).
+  `IntensityChart`, `DigitalWaveformGraph` and `MixedSignalGraph` draw
+  nothing yet.
 - **Binary buffers.** Buffers sent by a widget are logged, not forwarded.
 - **One view per panel.** Each panel creates its own model: two panels
   showing the same widget do not share state, except through dashboard

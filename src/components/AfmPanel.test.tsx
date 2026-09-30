@@ -37,6 +37,7 @@ const spy = {
   model: undefined as AfmModel | undefined,
   el: undefined as HTMLElement | undefined,
 };
+const graphSpy = { messages: [] as Array<{ content: unknown; buffers: DataView[] }> };
 jest.mock('../afm/registry', () => {
   const actual = jest.requireActual('../afm/registry');
   const entry = {
@@ -65,9 +66,29 @@ jest.mock('../afm/registry', () => {
       css: [{ text: '.spy{}' }],
     }),
   };
+  // A graph of anywidget-instruments-industrial fed by messages: it asks for its
+  // data with sync_request and keeps the messages it receives.
+  const graph = {
+    ...entry,
+    id: 'anywidget_instruments_industrial:TestSparkline',
+    defaults: { _kind: 'sparkline' },
+    load: async () => ({
+      module: {
+        default: {
+          render: ({ model }: { model: AfmModel }) => {
+            const keep = (content: unknown, buffers: DataView[]) => graphSpy.messages.push({ content, buffers });
+            model.on('msg:custom', keep);
+            model.send({ type: 'sync_request' });
+            return () => model.off('msg:custom', keep);
+          },
+        },
+      },
+      css: [],
+    }),
+  };
   return {
     ...actual,
-    findWidget: (id: string) => (id === 'test:Spy' ? entry : actual.findWidget(id)),
+    findWidget: (id: string) => (id === 'test:Spy' ? entry : id === graph.id ? graph : actual.findWidget(id)),
   };
 });
 
@@ -124,6 +145,33 @@ beforeEach(() => {
   spy.el = undefined;
   mockPartial.mockReset();
   mockConfig.disableSanitizeHtml = false;
+  graphSpy.messages = [];
+});
+
+describe('graphs fed by messages (MAP-011, MAP-012)', () => {
+  const values = (m: { buffers: DataView[] }) =>
+    Array.from(new Float32Array(m.buffers[0].buffer, m.buffers[0].byteOffset, m.buffers[0].byteLength / 4));
+
+  it('answers sync_request with a snapshot of the query results', async () => {
+    render(<AfmPanel {...props({ widget: 'anywidget_instruments_industrial:TestSparkline' })} />);
+    await waitFor(() => expect(graphSpy.messages).toHaveLength(1));
+    expect(graphSpy.messages[0].content).toEqual({ type: 'snapshot', n: 3 });
+    expect(values(graphSpy.messages[0])).toEqual([1, 2, 3]);
+  });
+
+  it('sends a new snapshot when the query results change', async () => {
+    const widget = 'anywidget_instruments_industrial:TestSparkline';
+    const { rerender } = render(<AfmPanel {...props({ widget })} />);
+    await waitFor(() => expect(graphSpy.messages.length).toBeGreaterThan(0));
+    rerender(<AfmPanel {...props({ widget }, [7, 8])} />);
+    await waitFor(() => expect(values(graphSpy.messages[graphSpy.messages.length - 1])).toEqual([7, 8]));
+  });
+
+  it('leaves the other widgets without these messages', async () => {
+    render(<AfmPanel {...props({ bindings: [speedBinding] })} />);
+    await waitFor(() => expect(spy.renders).toBe(1));
+    expect(graphSpy.messages).toHaveLength(0);
+  });
 });
 
 describe('AfmPanel', () => {

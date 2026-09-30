@@ -21,7 +21,7 @@ const GRAFANA_NOISE = [/\/livereload\.js/, /OpenFeature|OFREP/, /\/api\/dashboar
 // The provisioned dashboards, with their minimum number of AFM panels.
 const DASHBOARDS = [
   { name: 'the demo dashboard', fileName: 'demo.json', widgets: 13 },
-  { name: 'the anywidget-instruments-industrial gallery', fileName: 'instruments.json', widgets: 30 },
+  { name: 'the anywidget-instruments-industrial gallery', fileName: 'instruments.json', widgets: 34 },
 ];
 
 for (const { name, fileName, widgets } of DASHBOARDS) {
@@ -147,6 +147,24 @@ test('the anywidget-instruments-automotive widgets come from their own module', 
     await expect(panel.locator.locator('.awa-root').first(), title).toBeVisible({ timeout: WIDGET_TIMEOUT });
     await expect(panel.locator.locator('.awa-root.awa-invalid'), title).toHaveCount(0);
   }
+});
+
+test('the graphs of anywidget-instruments-industrial draw the query results (MAP-011)', async ({
+  gotoDashboardPage,
+  readProvisionedDashboard,
+  page,
+}) => {
+  test.setTimeout(120000);
+  const dashboard = await readProvisionedDashboard({ fileName: 'instruments.json' });
+  const dashboardPage = await gotoDashboardPage(dashboard);
+  const sparkline = dashboardPage.getPanelByTitle('Sparkline');
+  await expect(async () => {
+    await page.mouse.wheel(0, 800);
+    await page.getByText('Graphs fed by the query', { exact: true }).first().scrollIntoViewIfNeeded({ timeout: 2000 });
+    await sparkline.locator.scrollIntoViewIfNeeded({ timeout: 2000 });
+  }).toPass({ timeout: WIDGET_TIMEOUT });
+  // The value of a Sparkline is the last of the history the panel sent: no binding sets it.
+  await expect(sparkline.locator).toContainText(/\d+\.\d+ m³\/h/, { timeout: WIDGET_TIMEOUT });
 });
 
 test('a time range change reaches the widget traits', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
