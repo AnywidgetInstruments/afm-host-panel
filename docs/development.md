@@ -65,6 +65,9 @@ node scripts/vendor-instruments.mjs ../anywidget-instruments-industrial
 
 cd ../anywidget-instruments-automotive && npm ci && npm run build && cd -
 node scripts/vendor-automotive.mjs ../anywidget-instruments-automotive
+
+cd ../anywidget-instruments-aeronautics && npm ci && npm run build && cd -
+node scripts/vendor-aeronautics.mjs ../anywidget-instruments-aeronautics
 ```
 
 Each script copies the built module and CSS unmodified, with the upstream

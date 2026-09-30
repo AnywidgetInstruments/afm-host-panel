@@ -37,7 +37,11 @@ In the panel editor, section **Widget**:
     - `anywidget_instruments_automotive:*`: the widgets of
       [anywidget-instruments-automotive](automotives.md) (speedometer,
       tachometer, tell-tales, cluster, ...), for visualization only: no
-      widget is meant to be operated while driving.
+      widget is meant to be operated while driving;
+    - `anywidget_instruments_aeronautics:*`: the flight instruments of
+      [anywidget-instruments-aeronautics](aeronautics.md) (airspeed, attitude,
+      altimeter, turn coordinator, heading, vertical speed): not certified
+      avionics, not for navigation.
 - **Module URL** (mode B): an AFM module loaded from a URL, `https:` or on the
   Grafana origin, with an optional stylesheet URL. The Grafana administrator
   must allow it, see [Remote modules](#remote-modules).

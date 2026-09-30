@@ -318,6 +318,122 @@
         "isolation": "shadow",
         "showDiagnostics": true
       }
+    },
+    { "type": "row", "id": 103, "title": "anywidget-instruments-aeronautics (for visualization only: not certified avionics, not for navigation)", "collapsed": false, "gridPos": { "x": 0, "y": 28, "w": 24, "h": 1 }, "panels": [] },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 104,
+      "title": "Airspeed",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": 60, "max": 140, "startValue": 105, "spread": 3, "alias": "speed" }
+      ],
+      "gridPos": { "x": 0, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:AirspeedIndicator",
+        "staticTraits": "{\"white_arc\": [45, 85], \"green_arc\": [55, 130], \"yellow_arc\": [130, 163], \"vne\": 163}",
+        "bindings": [{ "trait": "value", "source": "field", "field": "speed", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 105,
+      "title": "Attitude",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": -10, "max": 10, "startValue": 2, "spread": 0.5, "alias": "pitch" },
+        { "refId": "B", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": -30, "max": 30, "startValue": -10, "spread": 2, "alias": "roll" }
+      ],
+      "gridPos": { "x": 4, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:AttitudeIndicator",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "pitch", "source": "field", "field": "pitch", "reducer": "lastNotNull" }, { "trait": "roll", "source": "field", "field": "roll", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 106,
+      "title": "Altimeter",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": 2000, "max": 6000, "startValue": 3500, "spread": 40, "alias": "altitude" }
+      ],
+      "gridPos": { "x": 8, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:Altimeter",
+        "staticTraits": "{\"pressure\": 1013}",
+        "bindings": [{ "trait": "value", "source": "field", "field": "altitude", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 107,
+      "title": "Turn coordinator",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": -4, "max": 4, "startValue": 1, "spread": 0.3, "alias": "rate" }
+      ],
+      "gridPos": { "x": 12, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:TurnCoordinator",
+        "staticTraits": "{\"slip\": 0}",
+        "bindings": [{ "trait": "rate", "source": "field", "field": "rate", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 108,
+      "title": "Heading",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": 0, "max": 359, "startValue": 270, "spread": 4, "alias": "heading" }
+      ],
+      "gridPos": { "x": 16, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:HeadingIndicator",
+        "staticTraits": "{\"bug\": 300}",
+        "bindings": [{ "trait": "value", "source": "field", "field": "heading", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
+    },
+    {
+      "type": "scelles-afmhost-panel",
+      "id": 109,
+      "title": "Vertical speed",
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "grafana-testdata-datasource", "uid": "trlxrdZVk" }, "scenarioId": "random_walk", "seriesCount": 1, "min": -1500, "max": 1500, "startValue": 300, "spread": 80, "alias": "vs" }
+      ],
+      "gridPos": { "x": 20, "y": 29, "w": 4, "h": 9 },
+      "options": {
+        "mode": "builtin",
+        "widget": "anywidget_instruments_aeronautics:VerticalSpeedIndicator",
+        "staticTraits": "{}",
+        "bindings": [{ "trait": "value", "source": "field", "field": "vs", "reducer": "lastNotNull" }],
+        "sizeTraits": false,
+        "isolation": "shadow",
+        "showDiagnostics": true
+      }
     }
   ],
   "refresh": "",

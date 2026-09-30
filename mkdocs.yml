@@ -26,6 +26,7 @@ nav:
   - Built-in widgets:
       - anywidget-instruments-industrial: instruments.md
       - anywidget-instruments-automotive: automotives.md
+      - anywidget-instruments-aeronautics: aeronautics.md
   - Compatibility and limits: compatibility.md
   - Design: design.md
   - Specification: specification.md
@@ -42,6 +43,7 @@ plugins:
           - guide.md
           - instruments.md
           - automotives.md
+          - aeronautics.md
           - compatibility.md
         Design and development:
           - design.md

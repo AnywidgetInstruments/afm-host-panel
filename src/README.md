@@ -12,7 +12,8 @@ model fed by Grafana.
   anywidget-instruments-industrial (gauges, tanks, thermometers, LEDs,
   switches, seven-segment displays, ...) and of
   anywidget-instruments-automotive (speedometer, tachometer, tell-tales,
-  cluster, ...).
+  cluster, ...) and of anywidget-instruments-aeronautics (airspeed, attitude,
+  altimeter, turn coordinator, heading, vertical speed).
 - Trait bindings: a field reduced by a Grafana reducer, all the values of a
   field, a static JSON value, a dashboard variable, or the time range.
 - Write-back: a value saved by the widget (a click, a switch) can set a
@@ -35,9 +36,11 @@ repository documentation: <https://github.com/AnywidgetInstruments/afm-host-pane
 
 The automotive widgets are for visualization, teaching and simulation. They
 are not vehicle instruments, and no widget is meant to be operated while
-driving.
+driving. The flight instruments are not certified avionics: never use them to
+fly an aircraft or to navigate.
 
 ## License
 
 BSD 3-Clause. Bundled anywidget-instruments-industrial and
-anywidget-instruments-automotive front ends: BSD-3-Clause.
+anywidget-instruments-automotive and anywidget-instruments-aeronautics front
+ends: BSD-3-Clause.

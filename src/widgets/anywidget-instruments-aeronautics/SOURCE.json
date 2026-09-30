@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/AnywidgetInstruments/anywidget-instruments-aeronautics",
+  "commit": "fb3a477a434a7590d24bb629f8636f675982e6e9",
+  "contractFormat": 1,
+  "contractVersion": "0.1.0.dev0",
+  "dirtyWorkingTree": false,
+  "license": "BSD-3-Clause"
+}

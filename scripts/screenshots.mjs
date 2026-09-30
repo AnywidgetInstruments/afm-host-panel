@@ -31,7 +31,7 @@ const browser = await chromium.launch();
 async function shoot(
   name,
   path,
-  { theme = 'dark', width = 1600, height = 1150, widgets = DEMO_WIDGETS, rows, plugin = true } = {}
+  { theme = 'dark', width = 1600, height = 1500, widgets = DEMO_WIDGETS, rows, plugin = true } = {}
 ) {
   // A fixed locale: Grafana fails to start with some system locales (en-US@posix).
   const page = await browser.newPage({ viewport: { width, height }, locale: 'en-US' });
@@ -73,6 +73,9 @@ async function shoot(
 // The anywidget-instruments-industrial gallery dashboard.
 const gallery = JSON.parse(readFileSync('provisioning/dashboards/instruments.json', 'utf8'));
 const GALLERY_WIDGETS = gallery.panels.filter((p) => p.type === 'scelles-afmhost-panel').length;
+const AERONAUTICS_ROW = demo.panels.find(
+  (p) => p.type === 'row' && p.title.startsWith('anywidget-instruments-aeronautics')
+).title;
 const AUTOMOTIVE_ROW = demo.panels.find(
   (p) => p.type === 'row' && p.title.startsWith('anywidget-instruments-automotive')
 ).title;
@@ -83,6 +86,8 @@ try {
     await shoot(`demo-${theme}`, '/d/afm-host-demo?kiosk', { theme });
     // The anywidget-instruments-automotive cluster of the demonstration dashboard.
     await shoot(`automotives-${theme}`, '/d/afm-host-demo?kiosk', { theme, rows: [AUTOMOTIVE_ROW], plugin: false });
+    // The anywidget-instruments-aeronautics row of the demonstration dashboard.
+    await shoot(`aeronautics-${theme}`, '/d/afm-host-demo?kiosk', { theme, rows: [AERONAUTICS_ROW], plugin: false });
     // The anywidget-instruments-industrial gallery.
     await shoot(`instruments-${theme}`, '/d/afm-instruments-gallery?kiosk', {
       theme,

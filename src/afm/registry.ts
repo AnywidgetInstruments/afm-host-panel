@@ -8,10 +8,13 @@
 //   URL, as anywidget hosts load `_esm` (INT-001).
 // - `anywidget_instruments_automotive:*`: the anywidget-instruments-automotive
 //   front end, vendored and loaded the same way (INT-002).
+// - `anywidget_instruments_aeronautics:*`: the anywidget-instruments-aeronautics
+//   front end, vendored and loaded the same way (INT-006).
 import type { CssSource } from './loader';
 import type { Traits } from './model';
 import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments-industrial/kinds';
 import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
+import { AERONAUTICS_KINDS } from '../widgets/anywidget-instruments-aeronautics/kinds';
 
 export type Importer = (url: string) => Promise<unknown>;
 
@@ -78,8 +81,12 @@ function loadInstruments(importer?: Importer): Promise<LoadedWidget> {
   if (!instruments) {
     instruments = (async () => {
       const [{ default: esm }, { default: css }] = await Promise.all([
-        import(/* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/esm'),
-        import(/* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/css'),
+        import(
+          /* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/esm'
+        ),
+        import(
+          /* webpackChunkName: "anywidget-instruments-industrial" */ '../widgets/anywidget-instruments-industrial/css'
+        ),
       ]);
       return { module: await importEsmText(esm, importer), css: [{ text: css }] };
     })();
@@ -133,7 +140,42 @@ const automotiveEntries: RegistryEntry[] = Object.entries(AUTOMOTIVE_KINDS).map(
   load: loadAutomotive,
 }));
 
-const ALL: RegistryEntry[] = [...examples, ...instrumentEntries, ...automotiveEntries];
+// anywidget-instruments-aeronautics ------------------------------------------
+
+/** Shown with every aeronautics widget (INT-006). */
+export const AERONAUTICS_SAFETY_NOTICE =
+  'For visualization, teaching and simulation only, not certified avionics: never to be used to fly an aircraft or to navigate.';
+
+let aeronautics: Promise<LoadedWidget> | undefined;
+
+function loadAeronautics(importer?: Importer): Promise<LoadedWidget> {
+  if (!aeronautics) {
+    aeronautics = (async () => {
+      const [{ default: esm }, { default: css }] = await Promise.all([
+        import(
+          /* webpackChunkName: "anywidget-instruments-aeronautics" */ '../widgets/anywidget-instruments-aeronautics/esm'
+        ),
+        import(
+          /* webpackChunkName: "anywidget-instruments-aeronautics" */ '../widgets/anywidget-instruments-aeronautics/css'
+        ),
+      ]);
+      return { module: await importEsmText(esm, importer), css: [{ text: css }] };
+    })();
+    aeronautics.catch(() => (aeronautics = undefined)); // retry on the next request
+  }
+  return aeronautics;
+}
+
+const aeronauticsEntries: RegistryEntry[] = Object.entries(AERONAUTICS_KINDS).map(([cls, kind]) => ({
+  id: `anywidget_instruments_aeronautics:${cls}`,
+  label: cls,
+  group: 'anywidget-instruments-aeronautics',
+  description: `anywidget-instruments-aeronautics ${cls} (_kind "${kind}"). ${AERONAUTICS_SAFETY_NOTICE}`,
+  defaults: { _kind: kind, theme: 'system' },
+  load: loadAeronautics,
+}));
+
+const ALL: RegistryEntry[] = [...examples, ...instrumentEntries, ...automotiveEntries, ...aeronauticsEntries];
 const BY_ID = new Map(ALL.map((e) => [e.id, e]));
 
 export function listWidgets(): RegistryEntry[] {

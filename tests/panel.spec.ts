@@ -20,7 +20,7 @@ const GRAFANA_NOISE = [/\/livereload\.js/, /OpenFeature|OFREP/, /\/api\/dashboar
 
 // The provisioned dashboards, with their minimum number of AFM panels.
 const DASHBOARDS = [
-  { name: 'the demo dashboard', fileName: 'demo.json', widgets: 13 },
+  { name: 'the demo dashboard', fileName: 'demo.json', widgets: 19 },
   { name: 'the anywidget-instruments-industrial gallery', fileName: 'instruments.json', widgets: 34 },
 ];
 

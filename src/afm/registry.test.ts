@@ -1,7 +1,14 @@
 import { resolveWidget } from './loader';
-import { AUTOMOTIVE_SAFETY_NOTICE, findWidget, importEsmText, listWidgets } from './registry';
+import {
+  AERONAUTICS_SAFETY_NOTICE,
+  AUTOMOTIVE_SAFETY_NOTICE,
+  findWidget,
+  importEsmText,
+  listWidgets,
+} from './registry';
 import { INSTRUMENTS_KINDS } from '../widgets/anywidget-instruments-industrial/kinds';
 import { AUTOMOTIVE_KINDS } from '../widgets/anywidget-instruments-automotive/kinds';
+import { AERONAUTICS_KINDS } from '../widgets/anywidget-instruments-aeronautics/kinds';
 
 describe('registry (LOAD-005, INT-001, INT-002, INT-005)', () => {
   const originalCreate = URL.createObjectURL;
@@ -88,6 +95,18 @@ describe('registry (LOAD-005, INT-001, INT-002, INT-005)', () => {
     const css = 'text' in first.css[0] ? first.css[0].text : '';
     expect(css).toContain('.awa-root');
     expect(css).toContain('.awi-root'); // the base styles come with the module
+  });
+
+  it('lists every aeronautics widget with its _kind and its safety notice (INT-006)', () => {
+    expect(Object.keys(AERONAUTICS_KINDS)).toEqual(
+      expect.arrayContaining(['AirspeedIndicator', 'AttitudeIndicator', 'Altimeter'])
+    );
+    for (const [cls, kind] of Object.entries(AERONAUTICS_KINDS)) {
+      const entry = findWidget(`anywidget_instruments_aeronautics:${cls}`);
+      expect(entry?.defaults).toEqual({ _kind: kind, theme: 'system' });
+      expect(entry?.description).toContain(AERONAUTICS_SAFETY_NOTICE);
+    }
+    expect(AERONAUTICS_SAFETY_NOTICE).toMatch(/never to be used to fly an aircraft/);
   });
 
   it('keeps no entry under the former names', () => {

@@ -8,6 +8,13 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ## [Unreleased]
 
+### Added
+
+- The flight instruments of anywidget-instruments-aeronautics (airspeed,
+  attitude, altimeter, turn coordinator, heading, vertical speed), vendored
+  unmodified at fb3a477 by `scripts/vendor-aeronautics.mjs`, each with its
+  safety notice (INT-006); the demo dashboard shows them fed by TestData.
+
 ### Changed
 
 - License: BSD 3-Clause (was MIT), as every repository of AnywidgetInstruments.

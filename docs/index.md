@@ -37,6 +37,17 @@ The widgets follow the Grafana theme, light or dark.
     fuel, coolant, tell-tales, gear indicator, cluster. For visualization
     only: no widget is meant to be operated while driving.
 
+-   **[anywidget-instruments-aeronautics](aeronautics.md)**
+
+    ---
+
+    [![anywidget-instruments-aeronautics](img/aeronautics-dark.png#only-dark)](aeronautics.md)
+    [![anywidget-instruments-aeronautics](img/aeronautics-light.png#only-light)](aeronautics.md)
+
+    The flight instruments, bundled unmodified: airspeed, attitude, altimeter,
+    turn coordinator, heading, vertical speed. Not certified avionics, not for
+    navigation.
+
 </div>
 
 Other AFM modules can be loaded from a URL when the server allows it (see the
@@ -54,7 +65,8 @@ dashboard variable or the time range (see the [User guide](guide.md)).
 
 - [User guide](guide.md): install, choose a widget, bind traits, write back.
 - [anywidget-instruments-industrial](instruments.md) and
-  [anywidget-instruments-automotive](automotives.md): the built-in widgets.
+  [anywidget-instruments-automotive](automotives.md) and
+  [anywidget-instruments-aeronautics](aeronautics.md): the built-in widgets.
 - [Compatibility and limits](compatibility.md): AFM compatibility matrix.
 - [Design](design.md): how the host works and why.
 - [Specification](specification.md): requirements (EARS, MoSCoW).

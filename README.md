@@ -11,7 +11,10 @@ Built in: three demonstration widgets, the 52 widgets of
 (gauges, tanks, LEDs, switches, seven-segment displays, ...) and the widgets of
 [anywidget-instruments-automotive](https://github.com/AnywidgetInstruments/anywidget-instruments-automotive)
 (speedometer, tachometer, tell-tales, cluster, ...; for visualization only, no
-widget is meant to be operated while driving).
+widget is meant to be operated while driving) and of
+[anywidget-instruments-aeronautics](https://github.com/AnywidgetInstruments/anywidget-instruments-aeronautics)
+(airspeed, attitude, altimeter, turn coordinator, heading, vertical speed; not
+certified avionics, not for navigation).
 Other AFM modules can be loaded from a URL when the server allows it.
 
 > **Status: initial development (0.0.x).** Not signed, not in the plugin
@@ -60,6 +63,7 @@ it locally from `docs/`:
 - [User guide](docs/guide.md): install, choose a widget, bind traits, write back
 - [anywidget-instruments-industrial](docs/instruments.md): the 52 built-in instrumentation widgets
 - [anywidget-instruments-automotive](docs/automotives.md): the built-in automotive widgets
+- [anywidget-instruments-aeronautics](docs/aeronautics.md): the built-in flight instruments
 - [Compatibility and limits](docs/compatibility.md): AFM compatibility matrix
 - [Design](docs/design.md), [Specification](docs/specification.md), [Roadmap](docs/roadmap.md)
 - [Development](docs/development.md)
