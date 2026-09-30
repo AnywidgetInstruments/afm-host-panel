@@ -8,6 +8,10 @@ Development phases are `0.0.x` milestones, not releases (see `docs/roadmap.md`).
 
 ## [Unreleased]
 
+### Changed
+
+- License: BSD 3-Clause (was MIT), as every repository of AnywidgetInstruments.
+
 ### Added
 
 - The graphs of anywidget-instruments-industrial fed by messages draw the

@@ -74,7 +74,7 @@ it locally from `docs/`:
 
 ## License
 
-MIT (see `LICENSE`). The vendored anywidget-instruments-industrial and
+BSD 3-Clause (see `LICENSE`), as every repository of AnywidgetInstruments. The vendored anywidget-instruments-industrial and
 anywidget-instruments-automotive front ends are BSD-3-Clause
 (`src/widgets/anywidget-instruments-industrial/LICENSE`,
 `src/widgets/anywidget-instruments-automotive/LICENSE`).

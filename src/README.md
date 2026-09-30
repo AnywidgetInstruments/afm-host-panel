@@ -39,5 +39,5 @@ driving.
 
 ## License
 
-MIT. Bundled anywidget-instruments-industrial and
+BSD 3-Clause. Bundled anywidget-instruments-industrial and
 anywidget-instruments-automotive front ends: BSD-3-Clause.
